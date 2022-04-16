@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load mathfilters %}
+
+{% load static %}
+{% block content %}
+    <!-- start tables -->
+    <div class="tables">
+        <div class="options">
+            <form class="search" method="POST">
+                {% csrf_token %}
+                <input type="text" name="search"/>
+                <button>البحث</button>
+            </form>
+            <a class="add" href="{% url "add-category" %}">
+                أضافة تصنيف جدبد
+                <i class="fas fa-plus"></i>
+            </a>
+        </div>
+        <table class="category">
+            <thead>
+            <tr>
+                <th>التسلسل</th>
+                <th>اسم التصنيف</th>
+                <th>الحالة</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if searches %}
+                {% for search in searches %}
+                    <tr>
+                        <td>{{ search.id|sub:search.id }}{{ search.id  |sub:1 }}</td>
+
+                        <td>{{ search.category }}</td>
+                        <td class="status">
+                            <a href="{% url "update_category" category_id=search.id %}">تعديل</a>
+                            <a href="{% url "delete_category" category_id=search.id %}">مسح</a>
+                        </td>
+                    </tr>
+                {% empty %}
+                {% endfor %}
+            {% else %}
+                {% for category in categories %}
+                    <tr>
+                        <td>{{ category.id|sub:category.id }}{{ category.id  |sub:1 }}</td>
+                        <td>{{ category.category }}</td>
+                        <td class="status">
+                            <a href="{% url "update_category" category_id=category.id %}">تعديل</a>
+                            <a href="{% url "delete_category" category_id=category.id %}">مسح</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            {% for msg  in messages %}
+                {% if msg %}
+                    <h3>{{ msg }}</h3>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="pag">
+            <div class="next"><i class="fas fa-angle-right"></i></div>
+            <div class="page">1</div>
+            <div class="page">1</div>
+            <div class="previous"><i class="fas fa-angle-left"></i></div>
+        </div>
+        <div class="t-responsive">
+            {% for category in categories %}
+                <div class="row">
+                    <div class="item">التسلسل</div>
+                    <div class="item">1</div>
+
+                    <div class="item">اسم التصنيف</div>
+                    <div class="item">{{ category }}</div>
+
+                    <div class="item ">الحالة</div>
+                    <div class="item status">
+                        <a href="{% url "update_category" category_id=category.id %}">تعديل</a>
+                        <a href="{% url "delete_category" category_id=category.id %}">مسح</a>
+                    </div>
+
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script src="{% static "js/dark-mode-table.js" %}"></script>
+{% endblock %}

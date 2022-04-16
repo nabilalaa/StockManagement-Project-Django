@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Markazi+Text:wght@400;700&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static "css/normalize.css" %}"/>
+    <link rel="stylesheet" href="{% static "css/all.min.css" %}"/>
+    <link rel="stylesheet" href="{% static "css/style.css" %}"/>
+    <link rel="stylesheet" href="{% static "css/responsive.css" %}"/>
+    <title>Document</title>
+</head>
+<body>
+<!-- start nav -->
+<nav>
+    <div class="nav-items">
+        <div class="logo"><h1>easy management</h1></div>
+        <div class="side-menu-btn"><i class="fas fa-bars"></i></div>
+    </div>
+    <div class="admin">admin: <span>nabil</span></div>
+</nav>
+<div class="container">
+    <!-- start side menu -->
+    <div class="side-menu">
+        <ul class="links">
+            <h2>القائمة</h2>
+            <li>
+                <a href="{% url "home" %}"><i class="fas fa-home"></i>لوحة التحكم</a>
+            </li>
+            <li>
+                <a href="{% url "category" %}"><i class="fas fa-book"></i>التصنيفات</a>
+            </li>
+            <li>
+                <a href="{% url "users" %}"><i class="fas fa-user"></i>ادارة المستخدمين</a>
+            </li>
+
+            <li>
+                <a href="{% url "products" %}"
+                ><i class="fas fa-shopping-cart"></i>ادارة المنتجات</a
+                >
+            </li>
+            <li>
+                <a href="{% url "sales" %}"
+                ><i class="fas fa-money-bill"></i>ادارة المبيعات</a
+                >
+            </li>
+            <li>
+{#                <a href="{% url "report-sales" %}"#}
+{#                ><i class="fas fa-chart-line"></i>تقرير المبيعات</a#}
+{#                >#}
+            </li>
+            <li>
+{#                <a href="{% url "logout" %}"><i class="fas fa-door-open"></i>تسجيل خروج</a>#}
+            </li>
+            <li class="dark"><i class="fas fa-moon"></i></li>
+        </ul>
+    </div>
+    {% block content %}
+
+    {% endblock %}
+</div>
+
+    {% block script %}
+    
+    {% endblock %}
+</body>
+</html>

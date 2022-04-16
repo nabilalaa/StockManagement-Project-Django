@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <!-- start add products -->
+    <section class="forms">
+        <h3>اضافة منتجات</h3>
+        <form class="add-items add-products" action="">
+            <div class="group-form">
+                <label for="image">اضافة صورة</label>
+                <input
+                        class="custom-input"
+                        id="image"
+                        type="file"
+                        name="image"
+                        value="اضف صورة"
+                />
+            </div>
+            <div class="group-form">
+                <label for="name">اضافة تصنيف</label>
+                <input id="name" type="text" name="name"/>
+            </div>
+            <div class="group-form">
+                <label for="inStock">عدد المنتجات في المخزن</label>
+                <input id="inStock" type="number" name="inStock" min="1"/>
+            </div>
+            <div class="group-form">
+                <label for="purchasingPrice">سعر الشراء</label>
+                <input
+                        id="purchasingPrice"
+                        type="number"
+                        name="purchasingPrice"
+                        min="1"
+                />
+            </div>
+            <div class="group-form">
+                <label for="sellingPrice">سعر البيع</label>
+                <input
+                        id="sellingPrice"
+                        type="number"
+                        name="sellingPrice"
+                        min="1"
+                />
+            </div>
+            <div class="group-form">
+                <label for="date">التاريخ</label>
+                <input id="date" type="date" name="date" value="2001-01-12"/>
+            </div>
+            <button>اضافة</button>
+        </form>
+    </section>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static "js/dark-mode-forms.js" %}"></script>
+{% endblock %}
+

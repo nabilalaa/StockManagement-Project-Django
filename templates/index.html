@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <!-- start index -->
+    <div class="index">
+        <div class="flex-charts">
+            <div class="chart">
+                <h3>المبيعات</h3>
+                <p>600$</p>
+
+                <div class="chart-doughnut">
+                    <div class="chart-labels">
+                        <span class="label label-sales">المبيعات</span>
+                        <span class="label label-category">التصنيفات</span>
+                        <span class="label label-products">المنتجات</span>
+                    </div>
+                    <canvas id="doughnut"></canvas>
+                </div>
+            </div>
+
+            <div class="chart">
+                <h3>المبيعات</h3>
+                <p>600$</p>
+                <div class="chart-line">
+                    <canvas id="line"></canvas>
+                </div>
+            </div>
+        </div>
+        <!-- start add-items -->
+        <div class="flex-add">
+            <a href="{% url "add-products" %}">
+                <div class="inner">
+                    <h4>اضافة منتجات</h4>
+                    <i class="fas fa-plus-circle"></i>
+                </div>
+            </a>
+
+            <a href="{% url "add-category" %}">
+                <div class="inner">
+                    <h4>اضافة تصنيف</h4>
+                    <i class="fas fa-plus-circle"></i>
+                </div>
+            </a>
+            <a href="{% url "add-sales" %}">
+                <div class="inner">
+                    <h4>اضافة مبيعات</h4>
+                    <i class="fas fa-plus-circle"></i>
+                </div>
+            </a>
+            <a href="{% url "add-users" %}">
+                <div class="inner">
+                    <h4>اضافة مستخدم</h4>
+                    <i class="fas fa-plus-circle"></i>
+                </div>
+            </a>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // charts
+        const dataLine = {
+            labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+            datasets: [
+                {
+                    label: "My First Dataset",
+                    data: [65, 59, 80, 81, 56, 55, 40],
+                    fill: true,
+                    borderColor: "rgb(45, 192, 192)",
+
+                    tension: 0.1,
+                },
+            ],
+        };
+        console.log(Array(document.querySelectorAll(".label")));
+        const dataDoughnut = {
+            datasets: [
+                {
+                    data: [30, 50, 100],
+                    backgroundColor: [
+                        "rgb(255, 99, 132)",
+                        "rgb(54, 162, 235)",
+                        "rgb(255, 205, 86)",
+                    ],
+                    hoverOffset: 4,
+                },
+            ],
+        };
+
+        // config charts
+        const configDoughnut = {
+            type: "doughnut",
+            data: dataDoughnut,
+            options: {
+                plugins: {
+                    legend: {
+                        labels: {
+                            font: {
+                                size: 18,
+                            },
+                            color: "#fff",
+                        },
+                    },
+                },
+            },
+        };
+
+        const configLine = {
+            type: "line",
+            data: dataLine,
+        };
+        // render charts
+        const line = new Chart(document.getElementById("line"), configLine);
+
+        const doughnut = new Chart(
+            document.getElementById("doughnut"),
+            configDoughnut
+        );
+    </script>
+    <script src="{% static "js/main.js" %}"></script>
+{% endblock %}

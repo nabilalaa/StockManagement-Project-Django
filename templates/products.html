@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <!-- start tables -->
+    <div class="tables">
+        <div class="options">
+            <form class="search">
+                <input type="text"/>
+                <button>البحث</button>
+            </form>
+            <a class="add" href="{% url "add-products" %}">
+                أضافة منتج جدبد
+                <i class="fas fa-plus"></i>
+            </a>
+        </div>
+        <table class="all-products">
+            <thead>
+            <tr>
+                <th>التسلسل</th>
+                <th>صورة المنتج</th>
+                <th>اسم المنتج</th>
+                <th>المتوفر في المخزن</th>
+                <th>سعر الشراء</th>
+                <th>سعر البيع</th>
+                <th>تاريخ اضافة المنتج</th>
+                <th>الحالة</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td>صورة المنتج</td>
+                <td>اسم المنتج</td>
+                <td>المتوفر في المخزن</td>
+                <td>سعر الشراء</td>
+                <td>سعر البيع</td>
+                <td>تاريخ اضافة المنتج</td>
+                <td class="status">
+                    <a href="">تعديل</a>
+                    <a href="">مسح</a>
+                </td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>صورة المنتج</td>
+                <td>اسم المنتج</td>
+                <td>المتوفر في المخزن</td>
+                <td>سعر الشراء</td>
+                <td>سعر البيع</td>
+                <td>تاريخ اضافة المنتج</td>
+                <td class="status">
+                    <a href="">تعديل</a>
+                    <a href="">مسح</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="pag">
+            <div class="next"><i class="fas fa-angle-right"></i></div>
+            <div class="page">1</div>
+            <div class="page">1</div>
+            <div class="previous"><i class="fas fa-angle-left"></i></div>
+        </div>
+        <div class="t-responsive">
+            <div class="row">
+                <div class="item">التسلسل</div>
+                <div class="item">1</div>
+                <div class="item">اسم المستخدم</div>
+                <div class="item">نبيل علاء تادرس<</div>
+                <div class="item">الايميل</div>
+                <div class="item break-word">nabilalaa06@gmail.com</div>
+                <div class="item">دور المستخدم</div>
+                <div class="item">admin</div>
+                <div class="item">تاريخ</div>
+                <div class="item">1/1/2022</div>
+            </div>
+            <div class="row">
+                <div class="item">التسلسل</div>
+                <div class="item">1</div>
+                <div class="item">اسم المستخدم</div>
+                <div class="item">نبيل علاء تادرس<</div>
+                <div class="item">الايميل</div>
+                <div class="item break-word">nabilalaa06@gmail.com</div>
+                <div class="item">دور المستخدم</div>
+                <div class="item">admin</div>
+                <div class="item">تاريخ</div>
+                <div class="item">1/1/2022</div>
+            </div>
+            <div class="row">
+                <div class="item">التسلسل</div>
+                <div class="item">1</div>
+                <div class="item">اسم المستخدم</div>
+                <div class="item">نبيل علاء تادرس<</div>
+                <div class="item">الايميل</div>
+                <div class="item break-word">nabilalaa06@gmail.com</div>
+                <div class="item">دور المستخدم</div>
+                <div class="item">admin</div>
+                <div class="item">تاريخ</div>
+                <div class="item">1/1/2022</div>
+            </div>
+            <div class="row">
+                <div class="item">التسلسل</div>
+                <div class="item">1</div>
+                <div class="item">اسم المستخدم</div>
+                <div class="item">نبيل علاء تادرس<</div>
+                <div class="item">الايميل</div>
+                <div class="item break-word">nabilalaa06@gmail.com</div>
+                <div class="item">دور المستخدم</div>
+                <div class="item">admin</div>
+                <div class="item">تاريخ</div>
+                <div class="item">1/1/2022</div>
+            </div>
+            <div class="row">
+                <div class="item">التسلسل</div>
+                <div class="item">1</div>
+                <div class="item">اسم المستخدم</div>
+                <div class="item">نبيل علاء تادرس<</div>
+                <div class="item">الايميل</div>
+                <div class="item break-word">nabilalaa06@gmail.com</div>
+                <div class="item">دور المستخدم</div>
+                <div class="item">admin</div>
+                <div class="item">تاريخ</div>
+                <div class="item">1/1/2022</div>
+            </div>
+            <div class="row">
+                <div class="item">التسلسل</div>
+                <div class="item">1</div>
+                <div class="item">اسم المستخدم</div>
+                <div class="item">نبيل علاء تادرس<</div>
+                <div class="item">الايميل</div>
+                <div class="item break-word">nabilalaa06@gmail.com</div>
+                <div class="item">دور المستخدم</div>
+                <div class="item">admin</div>
+                <div class="item">تاريخ</div>
+                <div class="item">1/1/2022</div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+{% block script %}
+    <script src="{% static "js/dark-mode-table.js" %}"></script>
+{% endblock %}

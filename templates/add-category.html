@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <!-- start add category -->
+    <section class="forms">
+        <h3>اضافة تصنيفات</h3>
+        <form class="add-items add-category" method="POST">
+            {% csrf_token %}
+
+            <label for="category">اضافة تصنيف</label>
+            {% if update_category %}
+                <input id="category" type="text" name="category" value="{{ update_category.category }}"/>
+            {% else %}
+                <input id="category" type="text" name="category"/>
+            {% endif %}
+            <button>اضافة</button>
+        </form>
+    </section>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static "js/dark-mode-forms.js" %}"></script>
+{% endblock %}
+

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <!-- start add users -->
+    <section class="forms">
+        <h3>اضافة مستخدمين</h3>
+        <form class="add-items add-products" action="">
+            <div class="group-form">
+                <label for="name">اسم المستخدم</label>
+                <input id="name" type="text" name="name"/>
+            </div>
+            <div class="group-form">
+                <label for="email">الايميل</label>
+                <input id="email" type="email" name="email"/>
+            </div>
+            <div class="group-form">
+                <label for="category">دور المستخدم</label>
+                <input id="category" type="text" name="category"/>
+            </div>
+            <div class="group-form">
+                <label for="password">كلمة السر</label>
+                <input id="password" type="password" name="password"/>
+            </div>
+            <button>اضافة</button>
+        </form>
+    </section>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static "js/dark-mode-forms.js" %}"></script>
+{% endblock %}
+
