@@ -12,7 +12,7 @@
                 <button>البحث</button>
             </form>
             <a class="add" href="{% url "add-category" %}">
-                أضافة تصنيف جدبد
+                أضافة تصنيف جديد
                 <i class="fas fa-plus"></i>
             </a>
         </div>
@@ -28,7 +28,7 @@
             {% if searches %}
                 {% for search in searches %}
                     <tr>
-                        <td>{{ search.id|sub:search.id }}{{ search.id  |sub:1 }}</td>
+                        <td>{{ search.id|add:searches }}</td>
 
                         <td>{{ search.category }}</td>
                         <td class="status">
@@ -36,12 +36,11 @@
                             <a href="{% url "delete_category" category_id=search.id %}">مسح</a>
                         </td>
                     </tr>
-                {% empty %}
                 {% endfor %}
             {% else %}
                 {% for category in categories %}
                     <tr>
-                        <td>{{ category.id|sub:category.id }}{{ category.id  |sub:1 }}</td>
+                        <td>{{ category.id|sub:category.id }}</td>
                         <td>{{ category.category }}</td>
                         <td class="status">
                             <a href="{% url "update_category" category_id=category.id %}">تعديل</a>
@@ -64,23 +63,41 @@
             <div class="previous"><i class="fas fa-angle-left"></i></div>
         </div>
         <div class="t-responsive">
-            {% for category in categories %}
-                <div class="row">
-                    <div class="item">التسلسل</div>
-                    <div class="item">1</div>
+            {% if searches %}
+                {% for search in searches %}
+                    <div class="row">
+                        <div class="item">التسلسل</div>
+                        <div class="item">1</div>
 
-                    <div class="item">اسم التصنيف</div>
-                    <div class="item">{{ category }}</div>
+                        <div class="item">اسم التصنيف</div>
+                        <div class="item">{{ search }}</div>
 
-                    <div class="item ">الحالة</div>
-                    <div class="item status">
-                        <a href="{% url "update_category" category_id=category.id %}">تعديل</a>
-                        <a href="{% url "delete_category" category_id=category.id %}">مسح</a>
+                        <div class="item ">الحالة</div>
+                        <div class="item status">
+                            <a href="{% url "update_category" category_id=search.id %}">تعديل</a>
+                            <a href="{% url "delete_category" category_id=search.id %}">مسح</a>
+                        </div>
+
                     </div>
+                {% endfor %}
+            {% else %}
+                {% for category in categories %}
+                    <div class="row">
+                        <div class="item">التسلسل</div>
+                        <div class="item">1</div>
 
-                </div>
-            {% endfor %}
+                        <div class="item">اسم التصنيف</div>
+                        <div class="item">{{ category }}</div>
 
+                        <div class="item ">الحالة</div>
+                        <div class="item status">
+                            <a href="{% url "update_category" category_id=category.id %}">تعديل</a>
+                            <a href="{% url "delete_category" category_id=category.id %}">مسح</a>
+                        </div>
+
+                    </div>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 {% endblock %}

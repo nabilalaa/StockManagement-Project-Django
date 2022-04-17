@@ -4,12 +4,13 @@
     <!-- start tables -->
     <div class="tables">
         <div class="options">
-            <form class="search">
-                <input type="text"/>
+            <form class="search" method="POST">
+                {% csrf_token %}
+                <input type="text" name="search"/>
                 <button>البحث</button>
             </form>
             <a class="add" href="{% url "add-users" %}">
-                أضافة مستخدم جدبد
+                أضافة مستخدم جديد
                 <i class=" fas fa-plus"></i>
             </a>
         </div>
@@ -25,39 +26,54 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>1</td>
-                <td>نبيل علاء تادرس</td>
-                <td>nabilalaa06@gmail.com</td>
-                <td>admin</td>
-                <td>1/1/2022</td>
-                <td class="status">
-                    <a href="">تعديل</a>
-                    <a href="">مسح</a>
-                </td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>نبيل علاء تادرس</td>
-                <td>nabilalaa06@gmail.com</td>
-                <td>admin</td>
-                <td>1/1/2022</td>
-                <td class="status">
-                    <a href="">تعديل</a>
-                    <a href="">مسح</a>
-                </td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>نبيل علاء تادرس</td>
-                <td>nabilalaa06@gmail.com</td>
-                <td>admin</td>
-                <td>1/1/2022</td>
-                <td class="status">
-                    <a href="">تعديل</a>
-                    <a href="">مسح</a>
-                </td>
-            </tr>
+            {% if searches %}
+                {% for search in searches %}
+                    <tr>
+                        <td>{{ search.id }}</td>
+                        <td>{{ search.username }}</td>
+                        <td>{{ search.email }}</td>
+                        <td>
+                            {% if search.is_superuser %}
+                                Admin
+                            {% else %}
+                                User
+                            {% endif %}
+                        </td>
+
+                        <td>{{ search.date_joined|date:"Y-m-d" }}</td>
+                        <td class="status">
+                            <a href="{% url "update_users" users_id=search.id %}">تعديل</a>
+                            <a href="{% url "delete_users" users_id=search.id %}">مسح</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                {% for user in users %}
+                    <tr>
+                        <td>1</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            {% if user.is_superuser %}
+                                Admin
+                            {% else %}
+                                User
+                            {% endif %}
+                        </td>
+
+                        <td>{{ user.date_joined|date:"Y-m-d" }}</td>
+                        <td class="status">
+                            <a href="{% url "update_users" users_id=user.id %}">تعديل</a>
+                            <a href="{% url "delete_users" users_id=user.id %}">مسح</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            {% for msg  in messages %}
+                {% if msg %}
+                    <h3>{{ msg }}</h3>
+                {% endif %}
+            {% endfor %}
             </tbody>
         </table>
         <div class="pag">

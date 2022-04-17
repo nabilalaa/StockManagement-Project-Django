@@ -4,25 +4,68 @@
     <!-- start add users -->
     <section class="forms">
         <h3>اضافة مستخدمين</h3>
-        <form class="add-items add-products" action="">
-            <div class="group-form">
-                <label for="name">اسم المستخدم</label>
-                <input id="name" type="text" name="name"/>
-            </div>
-            <div class="group-form">
-                <label for="email">الايميل</label>
-                <input id="email" type="email" name="email"/>
-            </div>
-            <div class="group-form">
-                <label for="category">دور المستخدم</label>
-                <input id="category" type="text" name="category"/>
-            </div>
-            <div class="group-form">
-                <label for="password">كلمة السر</label>
-                <input id="password" type="password" name="password"/>
-            </div>
-            <button>اضافة</button>
-        </form>
+        {% for msg in messages %}
+            {% if msg.tags %}
+                {{ msg }}
+            {% endif %}
+        {% endfor %}
+        {% if update_users %}
+            <form class="add-items add-products" method="post">
+
+                {% csrf_token %}
+                <div class="group-form">
+                    <label for="username">اسم المستخدم</label>
+                    <input id="username" type="text" name="username" value="{{ update_users.username }}"/>
+                </div>
+                <div class="group-form">
+                    <label for="email">الايميل</label>
+                    <input id="email" type="email" name="email" value="{{ update_users.email }}"/>
+                </div>
+                <div class="group-form">
+                    <label for="role">دور المستخدم</label>
+                    <select id="role" name="roles">
+                        {% if update_users.is_superuser %}
+                            <option>Admin</option>
+                            <option>User</option>
+                        {% else %}
+                            <option>User</option>
+                            <option>Admin</option>
+                        {% endif %}
+                    </select>
+                </div>
+                <div class="group-form">
+                    <label for="password">كلمة السر</label>
+                    <input id="password" type="password" name="password"/>
+                </div>
+                <button>اضافة</button>
+            </form>
+        {% else %}
+            <form class="add-items add-products" method="post">
+
+                {% csrf_token %}
+                <div class="group-form">
+                    <label for="username">اسم المستخدم</label>
+                    <input id="username" type="text" name="username"/>
+                </div>
+                <div class="group-form">
+                    <label for="email">الايميل</label>
+                    <input id="email" type="email" name="email"/>
+                </div>
+                <div class="group-form">
+                    <label for="role">دور المستخدم</label>
+                    <select id="role" name="roles">
+                        <option>Admin</option>
+                        <option>User</option>
+                    </select>
+                </div>
+                <div class="group-form">
+                    <label for="password">كلمة السر</label>
+                    <input id="password" type="password" name="password"/>
+                </div>
+                <button>اضافة</button>
+            </form>
+        {% endif %}
+
     </section>
 {% endblock %}
 
