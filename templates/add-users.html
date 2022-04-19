@@ -14,8 +14,8 @@
 
                 {% csrf_token %}
                 <div class="group-form">
-                    <label for="username">اسم المستخدم</label>
-                    <input id="username" type="text" name="username" value="{{ update_users.username }}"/>
+                    <label for="username">اسم المستخدم *</label>
+                    <input id="username" type="text" name="username" value="{{ update_users.username }}" required/>
                 </div>
                 <div class="group-form">
                     <label for="email">الايميل</label>
@@ -34,8 +34,8 @@
                     </select>
                 </div>
                 <div class="group-form">
-                    <label for="password">كلمة السر</label>
-                    <input id="password" type="password" name="password"/>
+                    <label for="password">كلمة السر *</label>
+                    <input id="password" type="password" name="password" required/>
                 </div>
                 <button>اضافة</button>
             </form>
@@ -44,8 +44,8 @@
 
                 {% csrf_token %}
                 <div class="group-form">
-                    <label for="username">اسم المستخدم</label>
-                    <input id="username" type="text" name="username"/>
+                    <label for="username">اسم المستخدم *</label>
+                    <input id="username" type="text" name="username" required/>
                 </div>
                 <div class="group-form">
                     <label for="email">الايميل</label>
@@ -59,8 +59,8 @@
                     </select>
                 </div>
                 <div class="group-form">
-                    <label for="password">كلمة السر</label>
-                    <input id="password" type="password" name="password"/>
+                    <label for="password">كلمة السر *</label>
+                    <input id="password" type="password" name="password" required/>
                 </div>
                 <button>اضافة</button>
             </form>

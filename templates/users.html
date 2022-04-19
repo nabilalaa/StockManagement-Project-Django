@@ -31,7 +31,10 @@
                     <tr>
                         <td>{{ search.id }}</td>
                         <td>{{ search.username }}</td>
-                        <td>{{ search.email }}</td>
+
+                        <td>
+                            {{ search.email }}
+                        </td>
                         <td>
                             {% if search.is_superuser %}
                                 Admin

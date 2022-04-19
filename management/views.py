@@ -57,7 +57,6 @@ def users(request):
     if request.POST and request.POST.get("search"):
         search = request.POST.get("search")
         searches = searches.filter(username__icontains=search)
-        print(searches)
         if searches.filter(username__icontains=request.POST.get("search")):
             messages.success(request, "جميع النتائج")
 
@@ -103,21 +102,24 @@ def update_users(request, users_id):
     email = request.POST.get("email")
     password = request.POST.get("password")
     roles = request.POST.get("roles")
-    print(User.objects.all().exclude(username=username))
     if request.method == "POST":
-        if roles == "Admin" and not User.objects.filter(username=username):
-            User.objects.filter(id=users_id).update(username=username, email=email, is_superuser=True)
-            user = User.objects.get(id=users_id)
-            user.set_password(password)
-            user.save()
-            return redirect("users")
-        elif roles == "User" and not User.objects.filter(username=username):
-            User.objects.filter(id=users_id).update(username=username, email=email, is_sttaf=True)
-            user = User.objects.get(id=users_id)
-            user.set_password(password)
-            user.save()
-            return redirect("users")
-        elif User.objects.exclude(username=username):
+        # print()
+        try:
+            if username and password:
+                print(list(User.objects.all().exclude(username=username)))
+                if roles == "Admin":
+                    User.objects.filter(id=users_id).update(username=username, email=email, is_superuser=True)
+                    user = User.objects.get(id=users_id)
+                    user.set_password(password)
+                    user.save()
+                    return redirect("users")
+                elif roles == "User" and password:
+                    User.objects.filter(id=users_id).update(username=username, email=email, is_superuser=False)
+                    user = User.objects.get(id=users_id)
+                    user.set_password(password)
+                    user.save()
+                    return redirect("users")
+        except:
             messages.error(request, "اسم المستخدم موجود مسبقا")
 
     context = {

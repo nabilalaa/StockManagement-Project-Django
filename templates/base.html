@@ -24,7 +24,18 @@
         <div class="logo"><h1>easy management</h1></div>
         <div class="side-menu-btn"><i class="fas fa-bars"></i></div>
     </div>
-    <div class="admin">admin: <span>nabil</span></div>
+    <div class="admin">
+        {% if user.is_authenticated %}
+            {% if user.is_superuser %}
+                Admin: <span>{{ user.username }}</span>
+            {% else %}
+                User: <span>{{ user.username }}</span>
+            {% endif %}
+        {% else %}
+            <a href="{% url "home" %}"><i class="fas fa-home"></i>تسجيل دخول</a>
+
+        {% endif %}
+    </div>
 </nav>
 <div class="container">
     <!-- start side menu -->
@@ -52,12 +63,12 @@
                 >
             </li>
             <li>
-{#                <a href="{% url "report-sales" %}"#}
-{#                ><i class="fas fa-chart-line"></i>تقرير المبيعات</a#}
-{#                >#}
+                {#                <a href="{% url "report-sales" %}"#}
+                {#                ><i class="fas fa-chart-line"></i>تقرير المبيعات</a#}
+                {#                >#}
             </li>
             <li>
-{#                <a href="{% url "logout" %}"><i class="fas fa-door-open"></i>تسجيل خروج</a>#}
+                {#                <a href="{% url "logout" %}"><i class="fas fa-door-open"></i>تسجيل خروج</a>#}
             </li>
             <li class="dark"><i class="fas fa-moon"></i></li>
         </ul>
@@ -67,8 +78,8 @@
     {% endblock %}
 </div>
 
-    {% block script %}
-    
-    {% endblock %}
+{% block script %}
+
+{% endblock %}
 </body>
 </html>
