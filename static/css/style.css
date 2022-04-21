@@ -39,6 +39,16 @@ body {
 .show-side {
 	right: 0 !important;
 }
+
+img{
+	width: 100%;
+	height: 100%;
+}
+
+.image{
+	width: 90px;
+	height: 70px;
+}
 /* start dark mode classes */
 
 .color {
@@ -386,6 +396,8 @@ tbody td {
 .status {
 	display: flex;
 	width: 100% !important;
+	height: 100%;
+    align-items: center;
 }
 .status a:first-child {
 	background-color: #4bb543;

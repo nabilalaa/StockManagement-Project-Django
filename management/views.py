@@ -135,7 +135,19 @@ def delete_users(request, users_id):
 
 # start products
 def products(request):
-    return render(request, "products.html")
+    searches = Product.objects.all()
+
+    if request.POST and request.POST.get("search"):
+        search = request.POST.get("search")
+        searches = searches.filter(name__icontains=search)
+        if searches.filter(name__icontains=request.POST.get("search")):
+            messages.success(request, "جميع النتائج")
+
+    context = {
+        "products": Product.objects.all(),
+        "searches": searches
+    }
+    return render(request, "products.html",context)
 
 
 def add_products(request):

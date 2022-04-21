@@ -86,18 +86,66 @@
             <div class="previous"><i class="fas fa-angle-left"></i></div>
         </div>
         <div class="t-responsive">
-            <div class="row">
-                <div class="item">التسلسل</div>
-                <div class="item">1</div>
-                <div class="item">اسم المستخدم</div>
-                <div class="item">نبيل علاء تادرس<</div>
-                <div class="item">الايميل</div>
-                <div class="item break-word">nabilalaa06@gmail.com</div>
-                <div class="item">دور المستخدم</div>
-                <div class="item">admin</div>
-                <div class="item">تاريخ</div>
-                <div class="item">1/1/2022</div>
-            </div>
+            {% if searches %}
+                {% for search in searches %}
+                    <div class="row">
+                        <div class="item">التسلسل</div>
+                        <div class="item ">1</div>
+
+                        <div class="item">اسم المستخدم</div>
+                        <div class="item ">{{ search.username }}</div>
+
+                        <div class="item">الايميل</div>
+                        <div class="item ">{{ search.email }}</div>
+
+                        <div class="item">دور المستخدم</div>
+                        <div class="item">
+                            {% if search.is_superuser %}
+                                Admin
+                            {% else %}
+                                User
+                            {% endif %}
+                        </div>
+                        <div class="item">تاريخ تسجيل الدخول</div>
+                        <div class="item ">{{ search.date_joined|date:"Y-m-d" }}</div>
+                        <div class="item">الحالة</div>
+                        <div class="item status">
+                            <a href="{% url "update_category" category_id=search.id %}">تعديل</a>
+                            <a href="{% url "delete_category" category_id=search.id %}">مسح</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                {% for user in users %}
+                    <div class="row">
+                        <div class="item">التسلسل</div>
+                        <div class="item ">1</div>
+
+                        <div class="item">اسم المستخدم</div>
+                        <div class="item ">{{ user.username }}</div>
+
+                        <div class="item">الايميل</div>
+                        <div class="item ">{{ user.email }}</div>
+
+                        <div class="item">دور المستخدم</div>
+                        <div class="item">
+                            {% if user.is_superuser %}
+                                Admin
+                            {% else %}
+                                User
+                            {% endif %}
+                        </div>
+                        <div class="item">تاريخ تسجيل الدخول</div>
+                        <div class="item ">{{ user.date_joined|date:"Y-m-d" }}</div>
+                        <div class="item">الحالة</div>
+                        <div class="item status">
+                            <a href="{% url "update_category" category_id=user.id %}">تعديل</a>
+                            <a href="{% url "delete_category" category_id=user.id %}">مسح</a>
+                        </div>
+
+                    </div>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 {% endblock %}

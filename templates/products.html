@@ -4,8 +4,9 @@
     <!-- start tables -->
     <div class="tables">
         <div class="options">
-            <form class="search">
-                <input type="text"/>
+            <form class="search" method="post">
+                {% csrf_token %}
+                <input type="text" name="search"/>
                 <button>البحث</button>
             </form>
             <a class="add" href="{% url "add-products" %}">
@@ -27,33 +28,53 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>1</td>
-                <td>صورة المنتج</td>
-                <td>اسم المنتج</td>
-                <td>المتوفر في المخزن</td>
-                <td>سعر الشراء</td>
-                <td>سعر البيع</td>
-                <td>تاريخ اضافة المنتج</td>
-                <td class="status">
-                    <a href="">تعديل</a>
-                    <a href="">مسح</a>
-                </td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>صورة المنتج</td>
-                <td>اسم المنتج</td>
-                <td>المتوفر في المخزن</td>
-                <td>سعر الشراء</td>
-                <td>سعر البيع</td>
-                <td>تاريخ اضافة المنتج</td>
-                <td class="status">
-                    <a href="">تعديل</a>
-                    <a href="">مسح</a>
-                </td>
-            </tr>
+            {% if searches %}
+                {% for search in searches %}
+                    <tr>
+                        <td>1</td>
+                        <td>
+                            <div class="image">
+                                <img src="{{ search.image.url }}">
+                            </div>
+                        </td>
+                        <td>{{ search.name }}</td>
+                        <td>{{ search.available }}</td>
+                        <td>{{ search.price_of_buy }}</td>
+                        <td>{{ search.price_of_sale }}</td>
+                        <td>{{ search.date_add_product|date:"Y-m-d (f A)" }}</td>
+                        <td class="status">
+                            <a href="">تعديل</a>
+                            <a href="">مسح</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                {% for product in products %}
+                    <tr>
+                        <td>1</td>
+                        <td>
+                            <div class="image">
+                                <img src="{{ product.image.url }}">
+                            </div>
+                        </td>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.available }}</td>
+                        <td>{{ product.price_of_buy }}</td>
+                        <td>{{ product.price_of_sale }}</td>
+                        <td>{{ product.date_add_product|date:"Y-m-d H" }}</td>
+                        <td class="status">
+                            <a href="">تعديل</a>
+                            <a href="">مسح</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
             </tbody>
+            {% for msg  in messages %}
+                {% if msg %}
+                    <h3>{{ msg }}</h3>
+                {% endif %}
+            {% endfor %}
         </table>
         <div class="pag">
             <div class="next"><i class="fas fa-angle-right"></i></div>
@@ -62,78 +83,60 @@
             <div class="previous"><i class="fas fa-angle-left"></i></div>
         </div>
         <div class="t-responsive">
-            <div class="row">
-                <div class="item">التسلسل</div>
-                <div class="item">1</div>
-                <div class="item">اسم المستخدم</div>
-                <div class="item">نبيل علاء تادرس<</div>
-                <div class="item">الايميل</div>
-                <div class="item break-word">nabilalaa06@gmail.com</div>
-                <div class="item">دور المستخدم</div>
-                <div class="item">admin</div>
-                <div class="item">تاريخ</div>
-                <div class="item">1/1/2022</div>
-            </div>
-            <div class="row">
-                <div class="item">التسلسل</div>
-                <div class="item">1</div>
-                <div class="item">اسم المستخدم</div>
-                <div class="item">نبيل علاء تادرس<</div>
-                <div class="item">الايميل</div>
-                <div class="item break-word">nabilalaa06@gmail.com</div>
-                <div class="item">دور المستخدم</div>
-                <div class="item">admin</div>
-                <div class="item">تاريخ</div>
-                <div class="item">1/1/2022</div>
-            </div>
-            <div class="row">
-                <div class="item">التسلسل</div>
-                <div class="item">1</div>
-                <div class="item">اسم المستخدم</div>
-                <div class="item">نبيل علاء تادرس<</div>
-                <div class="item">الايميل</div>
-                <div class="item break-word">nabilalaa06@gmail.com</div>
-                <div class="item">دور المستخدم</div>
-                <div class="item">admin</div>
-                <div class="item">تاريخ</div>
-                <div class="item">1/1/2022</div>
-            </div>
-            <div class="row">
-                <div class="item">التسلسل</div>
-                <div class="item">1</div>
-                <div class="item">اسم المستخدم</div>
-                <div class="item">نبيل علاء تادرس<</div>
-                <div class="item">الايميل</div>
-                <div class="item break-word">nabilalaa06@gmail.com</div>
-                <div class="item">دور المستخدم</div>
-                <div class="item">admin</div>
-                <div class="item">تاريخ</div>
-                <div class="item">1/1/2022</div>
-            </div>
-            <div class="row">
-                <div class="item">التسلسل</div>
-                <div class="item">1</div>
-                <div class="item">اسم المستخدم</div>
-                <div class="item">نبيل علاء تادرس<</div>
-                <div class="item">الايميل</div>
-                <div class="item break-word">nabilalaa06@gmail.com</div>
-                <div class="item">دور المستخدم</div>
-                <div class="item">admin</div>
-                <div class="item">تاريخ</div>
-                <div class="item">1/1/2022</div>
-            </div>
-            <div class="row">
-                <div class="item">التسلسل</div>
-                <div class="item">1</div>
-                <div class="item">اسم المستخدم</div>
-                <div class="item">نبيل علاء تادرس<</div>
-                <div class="item">الايميل</div>
-                <div class="item break-word">nabilalaa06@gmail.com</div>
-                <div class="item">دور المستخدم</div>
-                <div class="item">admin</div>
-                <div class="item">تاريخ</div>
-                <div class="item">1/1/2022</div>
-            </div>
+            {% if searches %}
+                <td>{{ product.name }}</td>
+                <td>{{ product.available }}</td>
+                <td>{{ product.price_of_buy }}</td>
+                <td>{{ product.price_of_sale }}</td>
+                {% for search in searches %}
+                    <div class="row">
+                        <div class="item">التسلسل</div>
+                        <div class="item">1</div>
+                        <div class="item">صورة المنتج</div>
+                        <div class="item">{{ search.image }}</div>
+                        <div class="item">اسم المنتج</div>
+                        <div class="item">{{ search.name }}</div>
+                        <div class="item">المتوفر في المخزن</div>
+                        <div class="item">{{ search.available }}</div>
+                        <div class="item">سعر الشراء</div>
+                        <div class="item">{{ search.price_of_buy }}</div>
+                        <div class="item">سعر البيع</div>
+                        <div class="item">{{ search.price_of_sale }}</div>
+                        <div class="item">تاريخ اضافة المنتج</div>
+                        <div class="item">{{ search.date_add_product|date:"Y-m-d (f A)" }}</div>
+                        <div class="item">الحالة</div>
+                        <div class="item status">
+                            <a href="{% url "update_category" category_id=search.id %}">تعديل</a>
+                            <a href="{% url "delete_category" category_id=search.id %}">مسح</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                {% for product in products %}
+                    <div class="row">
+                        <div class="item">التسلسل</div>
+                        <div class="item">1</div>
+                        <div class="item">صورة المنتج</div>
+                        <div class="item">{{ product.image }}</div>
+                        <div class="item">اسم المنتج</div>
+                        <div class="item">{{ product.name }}</div>
+                        <div class="item">المتوفر في المخزن</div>
+                        <div class="item">{{ product.available }}</div>
+                        <div class="item">سعر الشراء</div>
+                        <div class="item">{{ product.price_of_buy }}</div>
+                        <div class="item">سعر البيع</div>
+                        <div class="item">{{ product.price_of_sale }}</div>
+                        <div class="item">تاريخ اضافة المنتج</div>
+                        <div class="item">{{ product.date_add_product|date:"Y-m-d (f A)" }}</div>
+                        <div class="item">الحالة</div>
+
+                        <div class="item status">
+                            <a href="{% url "update_category" category_id=product.id %}">تعديل</a>
+                            <a href="{% url "delete_category" category_id=product.id %}">مسح</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 {% endblock %}
