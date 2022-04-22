@@ -10,7 +10,7 @@
                 <button>البحث</button>
             </form>
             <a class="add" href="{% url "add-products" %}">
-                أضافة منتج جدبد
+                أضافة منتج جديد
                 <i class="fas fa-plus"></i>
             </a>
         </div>
@@ -19,7 +19,7 @@
             <tr>
                 <th>التسلسل</th>
                 <th>صورة المنتج</th>
-                <th>اسم المنتج</th>
+                <th>إسم المنتج</th>
                 <th>المتوفر في المخزن</th>
                 <th>سعر الشراء</th>
                 <th>سعر البيع</th>
@@ -43,8 +43,8 @@
                         <td>{{ search.price_of_sale }}</td>
                         <td>{{ search.date_add_product|date:"Y-m-d (f A)" }}</td>
                         <td class="status">
-                            <a href="">تعديل</a>
-                            <a href="">مسح</a>
+                            <a href="{% url "update_products" products_id=search.id %}">تعديل</a>
+                            <a href="{% url "delete_products" products_id=search.id %}">مسح</a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -63,8 +63,8 @@
                         <td>{{ product.price_of_sale }}</td>
                         <td>{{ product.date_add_product|date:"Y-m-d H" }}</td>
                         <td class="status">
-                            <a href="">تعديل</a>
-                            <a href="">مسح</a>
+                            <a href="{% url "update_products" products_id=product.id %}">تعديل</a>
+                            <a href="{% url "delete_products" products_id=product.id %}">مسح</a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -94,7 +94,7 @@
                         <div class="item">1</div>
                         <div class="item">صورة المنتج</div>
                         <div class="item">{{ search.image }}</div>
-                        <div class="item">اسم المنتج</div>
+                        <div class="item">إسم المنتج</div>
                         <div class="item">{{ search.name }}</div>
                         <div class="item">المتوفر في المخزن</div>
                         <div class="item">{{ search.available }}</div>
@@ -106,8 +106,8 @@
                         <div class="item">{{ search.date_add_product|date:"Y-m-d (f A)" }}</div>
                         <div class="item">الحالة</div>
                         <div class="item status">
-                            <a href="{% url "update_category" category_id=search.id %}">تعديل</a>
-                            <a href="{% url "delete_category" category_id=search.id %}">مسح</a>
+                            <a href="{% url "update_products" products_id=search.id %}">تعديل</a>
+                            <a href="{% url "update_products" products_id=search.id %}">مسح</a>
                         </div>
                     </div>
                 {% endfor %}
@@ -118,7 +118,7 @@
                         <div class="item">1</div>
                         <div class="item">صورة المنتج</div>
                         <div class="item">{{ product.image }}</div>
-                        <div class="item">اسم المنتج</div>
+                        <div class="item">إسم المنتج</div>
                         <div class="item">{{ product.name }}</div>
                         <div class="item">المتوفر في المخزن</div>
                         <div class="item">{{ product.available }}</div>
@@ -131,8 +131,8 @@
                         <div class="item">الحالة</div>
 
                         <div class="item status">
-                            <a href="{% url "update_category" category_id=product.id %}">تعديل</a>
-                            <a href="{% url "delete_category" category_id=product.id %}">مسح</a>
+                            <a href="{% url "update_products" products_id=product.id %}">تعديل</a>
+                            <a href="{% url "update_products" products_id=product.id %}">مسح</a>
                         </div>
                     </div>
                 {% endfor %}

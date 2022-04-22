@@ -4,53 +4,126 @@
     <!-- start add products -->
     <section class="forms">
         <h3>اضافة منتجات</h3>
-        <form class="add-items add-products" action="">
-            <div class="group-form">
-                <label for="image">اضافة صورة</label>
-                <input
-                        class="custom-input"
-                        id="image"
-                        type="file"
-                        name="image"
-                        value="اضف صورة"
-                />
-            </div>
-            <div class="group-form">
-                <label for="name">اضافة تصنيف</label>
-                <input id="name" type="text" name="name"/>
-            </div>
-            <div class="group-form">
-                <label for="inStock">عدد المنتجات في المخزن</label>
-                <input id="inStock" type="number" name="inStock" min="1"/>
-            </div>
-            <div class="group-form">
-                <label for="purchasingPrice">سعر الشراء</label>
-                <input
-                        id="purchasingPrice"
-                        type="number"
-                        name="purchasingPrice"
-                        min="1"
-                />
-            </div>
-            <div class="group-form">
-                <label for="sellingPrice">سعر البيع</label>
-                <input
-                        id="sellingPrice"
-                        type="number"
-                        name="sellingPrice"
-                        min="1"
-                />
-            </div>
-            <div class="group-form">
-                <label for="date">التاريخ</label>
-                <input id="date" type="date" name="date" value="2001-01-12"/>
-            </div>
-            <button>اضافة</button>
-        </form>
+        {% if update_products %}
+            <form class="add-items add-products" method="post">
+                {% csrf_token %}
+                <div class="group-form">
+                    <label for="image">اضافة صورة</label>
+                    <input
+                            class="custom-input"
+                            id="image"
+                            type="file"
+                            name="image"
+                            value="{{ update_products.image }}"
+                    />
+                </div>
+                <div class="group-form">
+                    <label for="name">إسم المنتج</label>
+                    <input id="name" type="text" name="name" value="{{ update_products.name }}"/>
+                </div>
+
+                <div class="group-form">
+                    <label for="purchasingPrice">سعر الشراء</label>
+                    <input
+                            id="purchasingPrice"
+                            type="number"
+                            name="purchasingPrice"
+                            min="1"
+                            value="{{ update_products.price_of_buy }}"
+                    />
+                </div>
+                <div class="group-form">
+                    <label for="sellingPrice">سعر البيع</label>
+                    <input
+                            id="sellingPrice"
+                            type="number"
+                            name="sellingPrice"
+                            min="1"
+                            value="{{ update_products.price_of_sale }}"
+                    />
+                </div>
+                <div class="group-form">
+                    <label for="inStock">عدد المنتجات في المخزن</label>
+                    <input id="inStock" type="number" name="inStock" min="1" value=""/>
+                </div>
+                <div class="group-form">
+                    <label for="date">التاريخ</label>
+                    <input lang="en" id="date" type="datetime-local" name="date"
+                           value=""/>
+
+                </div>
+                <button>اضافة</button>
+            </form>
+        {% else %}
+            <form class="add-items add-products" method="post">
+                {% csrf_token %}
+                <div class="group-form">
+                    <label for="image">اضافة صورة</label>
+                    <input
+                            class="custom-input"
+                            id="image"
+                            type="file"
+                            name="image"
+                            value="اضف صورة"
+                    />
+                </div>
+                <div class="group-form">
+                    <label for="name">إسم المنتج</label>
+                    <input id="name" type="text" name="name"/>
+                </div>
+
+                <div class="group-form">
+                    <label for="purchasingPrice">سعر الشراء</label>
+                    <input
+                            id="purchasingPrice"
+                            type="number"
+                            name="purchasingPrice"
+                            min="1"
+                    />
+                </div>
+                <div class="group-form">
+                    <label for="sellingPrice">سعر البيع</label>
+                    <input
+                            id="sellingPrice"
+                            type="number"
+                            name="sellingPrice"
+                            min="1"
+                    />
+                </div>
+                <div class="group-form">
+                    <label for="inStock">عدد المنتجات في المخزن</label>
+                    <input id="inStock" type="number" name="inStock" min="1"/>
+                </div>
+                <div class="group-form">
+                    <label for="date">التاريخ</label>
+                    <input lang="en" id="date" type="datetime-local" name="date"
+                           value=""/>
+                </div>
+                <button>اضافة</button>
+            </form>
+        {% endif %}
+
     </section>
 {% endblock %}
 
 {% block script %}
+    <script src="{% static "js/moment.min.js" %}"></script>
+
+    <script>
+        {% if update_products %}
+            document.getElementById("date").value = "{{ update_products.date_add_product|date:'Y-m-d' }}T{{ update_products.date_add_product|time:'H:i' }}"
+
+        {% else %}
+            document.getElementById("date").value = moment().format().slice(0, 16)
+        {% endif %}
+
+    </script>
     <script src="{% static "js/dark-mode-forms.js" %}"></script>
+
+
+
+
+
+
 {% endblock %}
 

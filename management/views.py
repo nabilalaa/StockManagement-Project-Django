@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
 from .models import *
-
+from datetime import datetime
 
 def index(request):
     return render(request, "index.html")
@@ -147,28 +147,64 @@ def products(request):
         "products": Product.objects.all(),
         "searches": searches
     }
-    return render(request, "products.html",context)
+    return render(request, "products.html", context)
 
 
 def add_products(request):
-    return render(request, "add-products.html")
+    image = request.POST.get("image")
+    name = request.POST.get("name")
+    inStock = request.POST.get("inStock")
+    purchasingPrice = request.POST.get("purchasingPrice")
+    sellingPrice = request.POST.get("sellingPrice")
+    date = request.POST.get("date")
+
+    if request.method == "POST":
+        Product.objects.create(
+            image=image,
+            name=name,
+            price_of_buy=purchasingPrice,
+            price_of_sale=sellingPrice,
+            available=inStock,
+            date_add_product=date,
+
+        )
+        return redirect("products")
+    context = {
+        "datetime":datetime.now()
+    }
+    return render(request, "add-products.html",context)
 
 
 #
-# def update_products(request, products_id):
-#     if request.method == "POST":
-#         categoryName = request.POST.get("category")
-#         Category.objects.filter(id=category_id).update(category=categoryName)
-#         return redirect("category")
-#     context = {
-#         "update_category": Category.objects.get(id=category_id),
-#     }
-#     return render(request, "add-category.html", context)
+def update_products(request, products_id):
+    image = request.POST.get("image")
+    name = request.POST.get("name")
+
+    price_of_buy = request.POST.get("purchasingPrice")
+    price_of_sale = request.POST.get("sellingPrice")
+    available  = request.POST.get("inStock")
+
+    date = request.POST.get("date")
+    if request.method == "POST":
+
+        Product.objects.filter(id=products_id).update(
+            image=image,
+            name=name,
+            available = available,
+            price_of_buy = price_of_buy,
+            price_of_sale = price_of_sale,
+            date_add_product = date
+        )
+        return redirect("products")
+    context = {
+        "update_products": Product.objects.get(id=products_id),
+    }
+    return render(request, "add-products.html", context)
 #
 #
-# def delete_products(request, category_id):
-#     Category.objects.filter(id=products_id).delete()
-#     return redirect("category")
+def delete_products(request, products_id):
+    Product.objects.filter(id=products_id).delete()
+    return redirect("products")
 
 
 def sales(request):

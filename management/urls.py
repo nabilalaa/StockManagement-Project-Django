@@ -16,8 +16,8 @@ urlpatterns = [
     # start products
     path("products", products, name="products"),
     path("add-products", add_products, name="add-products"),
-    # path("update_products/<int:products_id>", update_products, name="update_products"),
-    # path("delete_products/<int:products_id>", delete_products, name="delete_products"),
+    path("update_products/<int:products_id>", update_products, name="update_products"),
+    path("delete_products/<int:products_id>", delete_products, name="delete_products"),
     # start sales
     path("sales", sales, name="sales"),
     path("add-sales", add_sales, name="add-sales"),
