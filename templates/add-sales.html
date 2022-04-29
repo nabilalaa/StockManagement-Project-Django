@@ -2,71 +2,204 @@
 {% load static %}
 {% block content %}
     <!-- start add sales -->
-    <section class="forms">
-        <h3>اضافة مبيعات</h3>
+    {% if user.is_superuser %}
+        <section class="forms">
+            <h3>اضافة مبيعات</h3>
 
-        <form class="add-items add-products" action="">
-            <div class="group-form">
-                <label for="name">اسم العميل</label>
-                <input id="name" type="text" name="name"/>
-            </div>
-            <div class="group-form">
-                <label for="date">تاريخ الشراء</label>
-                <input id="date" type="date" name="date" value="2001-01-12"/>
-            </div>
-            <div class="sales">
+            <form class="add-items add-products" method="post">
+                {% csrf_token %}
                 <div class="group-form">
-                    <label for="category">المنتج</label>
-                    <select id="products" name="products">
-                        <option value="default" selected disabled>
-                            -- اختر منتج --
-                        </option>
-
-                        <option value="volvo"><a href="#">cool</a></option>
-                        <option value="saab"><a href="#">nabil</a></option>
-                        <option value="mercedes"><a href="#">alaa</a></option>
-                        <option value="audi"><a href="#">tadros</a></option>
-                    </select>
+                    <label for="name">اسم العميل</label>
+                    <input id="name" type="text" name="name"/>
                 </div>
                 <div class="group-form">
-                    <label for="quantity">الكمية</label>
-                    <input
-                            id="quantity"
-                            type="number"
-                            name="quantity"
-                            data-total="#total1"
-                            data-price="#price1"
-                    />
+                    <label for="date">تاريخ الشراء</label>
+                    <input id="date" type="datetime-local" name="date" value=""/>
+                </div>
+                <div class="sales">
+                    <div class="group-form">
+                        <label for="category">المنتج</label>
+                        <select id="products" name="products">
+                            <option value="default" selected disabled>
+                                -- اختر منتج --
+                            </option>
+                            {% for product in product_name %}
+                                <option value="{{ product.price_of_sale }}">{{ product }}</option>
+                            {% endfor %}
+
+
+                        </select>
+                    </div>
+
+                    <div class="group-form">
+                        <label for="price">سعر البيع</label>
+                        <input id="price1" type="number" name="price" value="{{ price.price_of_sale }}"/>
+                    </div>
+                    <div class="group-form">
+                        <label for="quantity">الكمية</label>
+                        <input
+                                id="quantity"
+                                type="number"
+                                name="quantity"
+                                data-total="#total1"
+                                data-price="#price1"
+                        />
+                    </div>
+                    <div class="group-form">
+                        <label for="total">المجموع</label>
+                        <input id="total1" type="number" name="total"/>
+                    </div>
+
+                    <a class="add-sales">اضافة</a>
+                </div>
+
+                <div id="demo"></div>
+
+                <div class="group-form">
+                    <label for="final-total">المجموع النهائي</label>
+                    <input id="final-total" type="number" name="final-total"/>
                 </div>
                 <div class="group-form">
-                    <label for="price">سعر البيع</label>
-                    <input id="price1" type="number" name="price"/>
+                    <label for="notes">الملاحظات</label>
+                    <input id="notes" type="text" name="notes"/>
                 </div>
-                <div class="group-form">
-                    <label for="total">المجموع</label>
-                    <input id="total1" type="number" name="total"/>
-                </div>
-
-                <a class="add-sales">اضافة</a>
-            </div>
-
-            <div id="demo"></div>
-
-            <div class="group-form">
-                <label for="final-total">المجموع النهائي</label>
-                <input id="final-total" type="number" name="final-total"/>
-            </div>
-            <div class="group-form">
-                <label for="notes">الملاحظات</label>
-                <input id="notes" type="text" name="notes"/>
-            </div>
-            <button>اضافة</button>
-        </form>
-    </section>
+                <button>اضافة</button>
+            </form>
+        </section>
+    {% else %}
+        <section class="forms">
+            <h3>هذد الصفحة متاحة للأدمن فقط <a style="color: #4bb543" href="">قم بالتسجيل كأدمن </a></h3>
+        </section>
+    {% endif %}
 {% endblock %}
 
 {% block script %}
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="{% static "js/dark-mode-forms.js" %}"></script>
+    <script src="{% static "js/moment.min.js" %}"></script>
+
+    <script>
+        let add = document.querySelector(".add-sales");
+        num = 1;
+
+        function addsale() {
+            num++;
+            let newSales = `
+            <div class="sales">
+                <div class="group-form">
+                    <label for="category">المنتج</label>
+                    <select id="products" name="products" onchange="">
+                                    <option value="default" selected disabled>
+                                        -- اختر منتج --
+                                    </option>
+                                    {% for product in product_name %}
+                                        <option value="{{ product.price_of_sale }}">{{ product }}</option>
+                                    {% endfor %}
+
+
+                                </select>
+                </div>
+                <div class="group-form">
+                    <label for="price">سعر البيع</label>
+                    <input id="price${num}" type="number" name="price" />
+                </div>
+                <div class="group-form">
+                    <label for="quantity">الكمية</label>
+                    <input
+                        id="quantity"
+                        type="number"
+                        name="quantity"
+                        data-total="#total${num}"
+                        data-price="#price${num}"
+                    />
+                </div>
+                <div class="group-form">
+                    <label for="total">المجموع</label>
+                    <input id="total${num}" type="number" name="total" />
+                </div>
+            </div>`
+
+            document.getElementById("demo").insertAdjacentHTML("beforeend", newSales);
+            document.querySelectorAll("select").forEach(e => {
+                e.onchange = function (e) {
+                    document.getElementById("price" + num).value = e.target.value
+                    console.log(e.target)
+                    console.log(document.getElementById("price" + num))
+                }
+            })
+            if (localStorage.getItem("darkMode") === "enable") {
+                document.querySelectorAll("input").forEach((ele) => {
+                    ele.classList.add("dark-mode");
+                });
+                document.querySelectorAll("select").forEach((ele) => {
+                    ele.classList.add("dark-mode");
+                });
+
+            } else {
+                document.querySelectorAll("input").forEach((ele) => {
+                    ele.classList.remove("dark-mode");
+                });
+                document.querySelectorAll("select").forEach((ele) => {
+                    ele.classList.remove("dark-mode");
+                });
+            }
+            {#sum#}
+            let quantity = document.querySelectorAll("#quantity"),
+                ftotal = document.getElementById("final-total");
+            quantity.forEach((q) => {
+                q.onkeyup = function () {
+                    let total = document.querySelector(q.dataset.total);
+                    let price = document.querySelector(q.dataset.price);
+                    console.log(total);
+                    console.log(price);
+                    console.log(price.value * q.value);
+                    total.value = price.value * q.value;
+                    let listTotal = document.getElementsByName("total");
+                    console.log(listTotal);
+                    let list = [];
+                    listTotal.forEach((ele) => {
+                        list.push(ele.value);
+                        ftotal.value = d3.sum(list);
+                        console.log(d3.sum(list));
+                        // Math.sum;
+                    });
+                };
+            });
+        }
+
+
+        document.querySelectorAll("select").forEach(e => {
+            e.onchange = function (e) {
+                document.getElementById("price" + num).value = e.target.value
+                console.log(e.target)
+                console.log(document.getElementById("price" + num))
+            }
+        })
+        let quantity = document.querySelectorAll("#quantity"),
+            ftotal = document.getElementById("final-total");
+        quantity.forEach((q) => {
+            q.onkeyup = function () {
+                let total = document.querySelector(q.dataset.total);
+                let price = document.querySelector(q.dataset.price);
+                console.log(total);
+                console.log(price);
+                console.log(price.value * q.value);
+                total.value = price.value * q.value;
+                let listTotal = document.getElementsByName("total");
+                console.log(listTotal);
+                let list = [];
+                listTotal.forEach((ele) => {
+                    list.push(ele.value);
+                    ftotal.value = d3.sum(list);
+                    console.log(d3.sum(list));
+                    // Math.sum;
+                });
+            };
+        });
+        add.addEventListener("click", addsale);
+        console.log(document.getElementById("date"))
+        document.getElementById("date").value = moment().format().slice(0, 16)
+
+    </script>
 {% endblock %}
 

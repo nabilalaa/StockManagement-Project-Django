@@ -17,8 +17,18 @@ class Product(models.Model):
     name = models.CharField(null=True, max_length=50)
     available = models.IntegerField(null=True)
     price_of_buy = models.FloatField(null=True)
-    price_of_sale = models.FloatField(null=True, )
+    price_of_sale = models.FloatField(null=True)
     date_add_product = models.DateTimeField(null=True, default=datetime.now())
+
+    def __str__(self):
+        return self.name
+
+
+class Sale(models.Model):
+    name = models.CharField(null=True, max_length=50)
+    date_of_purchase = models.DateTimeField(null=True, default=datetime.now())
+    total = models.FloatField(null=True)
+    notes = models.TextField(null=True)
 
     def __str__(self):
         return self.name

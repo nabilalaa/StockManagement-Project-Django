@@ -2,20 +2,27 @@
 {% load static %}
 {% block content %}
     <!-- start add category -->
-    <section class="forms">
-        <h3>اضافة تصنيفات</h3>
-        <form class="add-items add-category" method="POST">
-            {% csrf_token %}
+    {% if user.is_superuser %}
+        <section class="forms">
+            <h3>اضافة تصنيفات</h3>
+            <form class="add-items add-category" method="POST">
+                {% csrf_token %}
 
-            <label for="category">اضافة تصنيف</label>
-            {% if update_category %}
-                <input id="category" type="text" name="category" value="{{ update_category.category }}"/>
-            {% else %}
-                <input id="category" type="text" name="category"/>
-            {% endif %}
-            <button>اضافة</button>
-        </form>
-    </section>
+                <label for="category">اضافة تصنيف</label>
+                {% if update_category %}
+                    <input id="category" type="text" name="category" value="{{ update_category.category }}"/>
+                {% else %}
+                    <input id="category" type="text" name="category"/>
+                {% endif %}
+                <button>اضافة</button>
+            </form>
+        </section>
+    {% else %}
+        <section class="forms">
+            <h3>هذد الصفحة متاحة للأدمن فقط <a style="color: #4bb543" href="">قم بالتسجيل كأدمن </a></h3>
+
+        </section>
+    {% endif %}
 {% endblock %}
 
 {% block script %}

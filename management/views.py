@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib import messages
 from django.contrib.auth.models import User
 from .models import *
 from datetime import datetime
+
 
 def index(request):
     return render(request, "index.html")
@@ -170,9 +171,9 @@ def add_products(request):
         )
         return redirect("products")
     context = {
-        "datetime":datetime.now()
+        "datetime": datetime.now()
     }
-    return render(request, "add-products.html",context)
+    return render(request, "add-products.html", context)
 
 
 #
@@ -182,34 +183,74 @@ def update_products(request, products_id):
 
     price_of_buy = request.POST.get("purchasingPrice")
     price_of_sale = request.POST.get("sellingPrice")
-    available  = request.POST.get("inStock")
+    available = request.POST.get("inStock")
 
     date = request.POST.get("date")
     if request.method == "POST":
-
         Product.objects.filter(id=products_id).update(
             image=image,
             name=name,
-            available = available,
-            price_of_buy = price_of_buy,
-            price_of_sale = price_of_sale,
-            date_add_product = date
+            available=available,
+            price_of_buy=price_of_buy,
+            price_of_sale=price_of_sale,
+            date_add_product=date
         )
         return redirect("products")
     context = {
         "update_products": Product.objects.get(id=products_id),
     }
     return render(request, "add-products.html", context)
-#
-#
+
+
 def delete_products(request, products_id):
     Product.objects.filter(id=products_id).delete()
     return redirect("products")
 
 
 def sales(request):
-    return render(request, "sales.html")
+    searches = Sale.objects.all()
+
+    if request.POST and request.POST.get("search"):
+        search = request.POST.get("search")
+        searches = searches.filter(name__icontains=search)
+        if searches.filter(name__icontains=request.POST.get("search")):
+            messages.success(request, "جميع النتائج")
+
+    context = {
+        "sales": Sale.objects.all(),
+        "searches": searches
+    }
+    return render(request, "sales.html", context)
 
 
 def add_sales(request):
-    return render(request, "add-sales.html")
+    name = request.POST.get("name")
+    date = request.POST.get("date")
+    total = request.POST.get("final-total")
+    notes = request.POST.get("notes")
+    if request.method == "POST":
+        Sale.objects.create(
+            name=name,
+            date_of_purchase=date,
+            total=total,
+            notes=notes
+        )
+        return redirect("sales")
+    context = {
+        "product_name": Product.objects.all()
+    }
+    return render(request, "add-sales.html", context)
+
+# def sale_price(request, sales_price):
+#     Product.objects.filter(id=sales_price)
+#     print(Product.objects.filter(id=sales_price))
+#     # print(Product.objects.filter(id=sales_price))
+#     context = {
+#         "price":Product.objects.get(id=sales_price),
+#         "product_name": Product.objects.all(),
+#
+#
+#     }
+#     return render(request, "add-sales.html", context)
+#
+#     # return HttpResponse(Product.objects.get(id=sales_price).price_of_buy)

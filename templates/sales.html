@@ -4,8 +4,9 @@
     <!-- start tables -->
     <div class="tables">
         <div class="options">
-            <form class="search">
-                <input type="text"/>
+            <form class="search" method="post">
+                <input type="text" name="search">
+                {% csrf_token %}
                 <button>البحث</button>
             </form>
             <a class="add" href="{% url "add-sales" %}">
@@ -25,39 +26,40 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>1</td>
-                <td>نبيل علاء تادرس</td>
-                <td>nabilalaa06@gmail.com</td>
-                <td>admin</td>
-                <td>1/1/2022</td>
-                <td class="status">
-                    <a href="">تعديل</a>
-                    <a href="">مسح</a>
-                </td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>نبيل علاء تادرس</td>
-                <td>nabilalaa06@gmail.com</td>
-                <td>admin</td>
-                <td>1/1/2022</td>
-                <td class="status">
-                    <a href="">تعديل</a>
-                    <a href="">مسح</a>
-                </td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>نبيل علاء تادرس</td>
-                <td>nabilalaa06@gmail.com</td>
-                <td>admin</td>
-                <td>1/1/2022</td>
-                <td class="status">
-                    <a href="">تعديل</a>
-                    <a href="">مسح</a>
-                </td>
-            </tr>
+            {% if searches %}
+                {% for search in searches %}
+                    <tr>
+                        <td>{{ search.id }}</td>
+                        <td>{{ search.name }}</td>
+                        <td>{{ search.date_of_purchase|date:"Y-m-d (H:m)" }}</td>
+                        <td>{{ search.total }}</td>
+                        <td>{{ search.notes }}</td>
+                        <td class="status">
+                            <a href="">تعديل</a>
+                            <a href="">مسح</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                {% for sale in sales %}
+                    <tr>
+                        <td>1</td>
+                        <td>نبيل علاء تادرس</td>
+                        <td>nabilalaa06@gmail.com</td>
+                        <td>admin</td>
+                        <td>1/1/2022</td>
+                        <td class="status">
+                            <a href="">تعديل</a>
+                            <a href="">مسح</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            {% for msg  in messages %}
+                {% if msg %}
+                    <h3 style="color: #4bb543">{{ msg }}</h3>
+                {% endif %}
+            {% endfor %}
             </tbody>
         </table>
         <div class="pag">
@@ -67,18 +69,45 @@
             <div class="previous"><i class="fas fa-angle-left"></i></div>
         </div>
         <div class="t-responsive">
-            <div class="row">
-                <div class="item">التسلسل</div>
-                <div class="item">1</div>
-                <div class="item">اسم المستخدم</div>
-                <div class="item">نبيل علاء تادرس<</div>
-                <div class="item">الايميل</div>
-                <div class="item break-word">nabilalaa06@gmail.com</div>
-                <div class="item">دور المستخدم</div>
-                <div class="item">admin</div>
-                <div class="item">تاريخ</div>
-                <div class="item">1/1/2022</div>
-            </div>
+            {% if searches %}
+                {% for search in searches %}
+                    <div class="row">
+                        <div class="item">التسلسل</div>
+                        <div class="item">1</div>
+                        <div class="item">اسم العميل</div>
+                        <div class="item">{{ search.name }}</div>
+                        <div class="item">تاريخ الشراء</div>
+                        <div class="item break-word">{{ search.date_of_purchase|date:"Y-m-d (H:m)" }}</div>
+                        <div class="item">المجموع</div>
+                        <div class="item">{{ search.total }}</div>
+                        <div class="item">الملاحظات</div>
+                        <div class="item">{{ search.notes }}</div>
+                        {#                        <div class="item status">#}
+                        {#                            <a href="{% url "update_products" products_id=product.id %}">تعديل</a>#}
+                        {#                            <a href="{% url "update_products" products_id=product.id %}">مسح</a>#}
+                        {#                        </div>#}
+                    </div>
+                {% endfor %}
+            {% else %}
+                {% for sale in sales %}
+                    <div class="row">
+                        <div class="item">التسلسل</div>
+                        <div class="item">1</div>
+                        <div class="item">اسم العميل</div>
+                        <div class="item">{{ search.name }}</div>
+                        <div class="item">تاريخ الشراء</div>
+                        <div class="item break-word">{{ search.date_of_purchase|date:"Y-m-d (H:m)" }}</div>
+                        <div class="item">المجموع</div>
+                        <div class="item">{{ search.total }}</div>
+                        <div class="item">الملاحظات</div>
+                        <div class="item">{{ search.notes }}</div>
+                        {#                        <div class="item status">#}
+                        {#                            <a href="{% url "update_products" products_id=product.id %}">تعديل</a>#}
+                        {#                            <a href="{% url "update_products" products_id=product.id %}">مسح</a>#}
+                        {#                        </div>#}
+                    </div>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 {% endblock %}
