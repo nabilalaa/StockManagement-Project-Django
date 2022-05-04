@@ -33,7 +33,7 @@
 
                     <div class="group-form">
                         <label for="price">سعر البيع</label>
-                        <input id="price1" type="number" name="price" value="{{ price.price_of_sale }}"/>
+                        <input id="price1" type="number" name="price" value="{{ price.price_of_sale }} required"/>
                     </div>
                     <div class="group-form">
                         <label for="quantity">الكمية</label>
@@ -43,6 +43,7 @@
                                 name="quantity"
                                 data-total="#total1"
                                 data-price="#price1"
+                                required
                         />
                     </div>
                     <div class="group-form">
@@ -101,7 +102,7 @@
                 </div>
                 <div class="group-form">
                     <label for="price">سعر البيع</label>
-                    <input id="price${num}" type="number" name="price" />
+                    <input id="price${num}" type="number" name="price" required/>
                 </div>
                 <div class="group-form">
                     <label for="quantity">الكمية</label>
@@ -111,20 +112,40 @@
                         name="quantity"
                         data-total="#total${num}"
                         data-price="#price${num}"
+                        required
                     />
                 </div>
                 <div class="group-form">
                     <label for="total">المجموع</label>
-                    <input id="total${num}" type="number" name="total" />
+                    <input id="total${num}" type="number" name="total"/>
                 </div>
+                <a class="add-sales remove-items">حذف</a>
             </div>`
+            document.getElementById("demo").insertAdjacentHTML("beforeend", newSales)
 
-            document.getElementById("demo").insertAdjacentHTML("beforeend", newSales);
+            console.log(document.getElementById("price" + num))
+            if (document.getElementById("price" + num).value === " ") {
+                console.log("dd")
+                document.querySelector(".add-sales").style.pointerEvents = "all"
+
+            } else {
+                console.log("ff")
+
+                document.querySelector(".add-sales").style.pointerEvents = "none"
+
+            }
+
             document.querySelectorAll("select").forEach(e => {
+
                 e.onchange = function (e) {
                     document.getElementById("price" + num).value = e.target.value
-                    console.log(e.target)
-                    console.log(document.getElementById("price" + num))
+                    if (document.getElementById("price" + num).value === " ") {
+                        document.querySelector(".add-sales").style.pointerEvents = "none"
+
+                    } else {
+
+                        document.querySelector(".add-sales").style.pointerEvents = "all"
+                    }
                 }
             })
             if (localStorage.getItem("darkMode") === "enable") {
@@ -150,29 +171,67 @@
                 q.onkeyup = function () {
                     let total = document.querySelector(q.dataset.total);
                     let price = document.querySelector(q.dataset.price);
-                    console.log(total);
-                    console.log(price);
-                    console.log(price.value * q.value);
                     total.value = price.value * q.value;
                     let listTotal = document.getElementsByName("total");
-                    console.log(listTotal);
-                    let list = [];
+                    window.list = [];
+
+                    console.log(window.list)
                     listTotal.forEach((ele) => {
                         list.push(ele.value);
                         ftotal.value = d3.sum(list);
-                        console.log(d3.sum(list));
-                        // Math.sum;
                     });
+
                 };
+                if (document.getElementById("demo").children.length != 0) {
+                    document.querySelectorAll(".remove-items").forEach((e) => {
+                        e.onclick = function () {
+                            if (ftotal.value) {
+                                let l = window.list
+                                delete l[l.indexOf(e.parentElement.children[3].children[1].value)]
+                                ftotal.value = d3.sum(l);
+                                e.parentElement.remove()
+
+                            }
+                            if (l.length === 1) {
+                                document.getElementById("final-total").value
+                                    = document.getElementById("total1").value
+                            }
+                        };
+                    });
+                }
+
             });
+
         }
 
+        document.getElementsByName("price").forEach(e => {
+
+            if (e.value) {
+                document.querySelector(".add-sales").style.pointerEvents = "all"
+
+            } else {
+                console.log(e)
+
+                document.querySelector(".add-sales").style.pointerEvents = "none"
+
+            }
+        })
 
         document.querySelectorAll("select").forEach(e => {
             e.onchange = function (e) {
                 document.getElementById("price" + num).value = e.target.value
-                console.log(e.target)
-                console.log(document.getElementById("price" + num))
+                document.getElementsByName("price").forEach(e => {
+
+                    if (e.value) {
+                        document.querySelector(".add-sales").style.pointerEvents = "all"
+
+                    } else {
+                        console.log(e)
+
+                        document.querySelector(".add-sales").style.pointerEvents = "none"
+
+                    }
+                })
             }
         })
         let quantity = document.querySelectorAll("#quantity"),
@@ -181,23 +240,21 @@
             q.onkeyup = function () {
                 let total = document.querySelector(q.dataset.total);
                 let price = document.querySelector(q.dataset.price);
-                console.log(total);
-                console.log(price);
-                console.log(price.value * q.value);
                 total.value = price.value * q.value;
                 let listTotal = document.getElementsByName("total");
-                console.log(listTotal);
-                let list = [];
+                console.log(listTotal)
+                window.list = [];
+                console.log(window.list)
                 listTotal.forEach((ele) => {
                     list.push(ele.value);
                     ftotal.value = d3.sum(list);
-                    console.log(d3.sum(list));
+                    console.log("total " + d3.sum(list));
                     // Math.sum;
                 });
+
             };
         });
         add.addEventListener("click", addsale);
-        console.log(document.getElementById("date"))
         document.getElementById("date").value = moment().format().slice(0, 16)
 
     </script>
