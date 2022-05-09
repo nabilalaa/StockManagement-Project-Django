@@ -176,7 +176,6 @@ def add_products(request):
     return render(request, "add-products.html", context)
 
 
-#
 def update_products(request, products_id):
     image = request.POST.get("image")
     name = request.POST.get("name")
@@ -209,7 +208,6 @@ def delete_products(request, products_id):
 
 def sales(request):
     searches = Sale.objects.all()
-
     if request.POST and request.POST.get("search"):
         search = request.POST.get("search")
         searches = searches.filter(name__icontains=search)
@@ -226,31 +224,67 @@ def sales(request):
 def add_sales(request):
     name = request.POST.get("name")
     date = request.POST.get("date")
-    total = request.POST.get("final-total")
+    product = request.POST.getlist("products")
+    quantity = request.POST.getlist("quantity")
+    price = request.POST.getlist("price")
+    total = request.POST.getlist("total")
+    f_total = request.POST.get("final-total")
     notes = request.POST.get("notes")
+
     if request.method == "POST":
-        Sale.objects.create(
-            name=name,
-            date_of_purchase=date,
-            total=total,
-            notes=notes
-        )
+        for product, quantity, price, total in zip(product, quantity,
+                                                   price, total):
+            Sale.objects.create(
+                name=name,
+                date_of_purchase=date,
+                product=product,
+                price_of_selling=price,
+                quantity=quantity,
+                total=total,
+                f_total=f_total,
+                notes=notes
+
+            )
+
         return redirect("sales")
+
     context = {
-        "product_name": Product.objects.all()
+        "product_name": Product.objects.all(),
     }
     return render(request, "add-sales.html", context)
 
-# def sale_price(request, sales_price):
-#     Product.objects.filter(id=sales_price)
-#     print(Product.objects.filter(id=sales_price))
-#     # print(Product.objects.filter(id=sales_price))
-#     context = {
-#         "price":Product.objects.get(id=sales_price),
-#         "product_name": Product.objects.all(),
-#
-#
-#     }
-#     return render(request, "add-sales.html", context)
-#
-#     # return HttpResponse(Product.objects.get(id=sales_price).price_of_buy)
+
+def update_sales(request, sales_id):
+    name = request.POST.get("name")
+    date = request.POST.get("date")
+    product = request.POST.get("products")
+    quantity = request.POST.get("quantity")
+    price = request.POST.get("price")
+    total = request.POST.get("total")
+    f_total = request.POST.get("final-total")
+    notes = request.POST.get("notes")
+    if request.method == "POST":
+        Sale.objects.filter(id=sales_id).update(
+            name=name,
+            date_of_purchase=date,
+            product=product,
+            price_of_selling=price,
+            quantity=quantity,
+            total=total,
+            f_total=f_total,
+            notes=notes
+
+        )
+
+        return redirect("sales")
+    context = {
+        "update_products": Sale.objects.get(id=sales_id),
+        "product_name": Product.objects.all(),
+
+    }
+    return render(request, "add-sales.html", context)
+
+
+def delete_sales(request, sales_id):
+    Sale.objects.filter(id=sales_id).delete()
+    return redirect("sales")

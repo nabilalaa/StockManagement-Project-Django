@@ -10,61 +10,108 @@
                 {% csrf_token %}
                 <div class="group-form">
                     <label for="name">اسم العميل</label>
-                    <input id="name" type="text" name="name"/>
+                    <input id="name" type="text" name="name" value="{{ update_products.name }}"/>
                 </div>
                 <div class="group-form">
                     <label for="date">تاريخ الشراء</label>
                     <input id="date" type="datetime-local" name="date" value=""/>
                 </div>
-                <div class="sales">
-                    <div class="group-form">
-                        <label for="category">المنتج</label>
-                        <select id="products" name="products">
-                            <option value="default" selected disabled>
-                                -- اختر منتج --
-                            </option>
-                            {% for product in product_name %}
-                                <option value="{{ product.price_of_sale }}">{{ product }}</option>
-                            {% endfor %}
+                {% if update_products %}
+                    <div class="sales">
+                        <div class="group-form">
+                            <label for="category">المنتج</label>
+                            <select id="products" name="products" required>
+                                <option value="default" disabled>
+                                    -- اختر منتج --
+                                </option>
+                                {% for pro in product_name %}
+                                    <option value="{{ pro.price_of_sale }}" selected>{{ pro.name }}</option>
+                                {% endfor %}
 
+                            </select>
+                        </div>
 
-                        </select>
+                        <div class="group-form">
+                            <label for="price">سعر البيع</label>
+                            <input id="price1" type="number" name="price"
+                                   value="{{ update_products.price_of_selling }}" required/>
+                        </div>
+                        <div class="group-form">
+                            <label for="quantity">الكمية</label>
+                            <input
+                                    id="quantity"
+                                    type="number"
+                                    name="quantity"
+                                    data-total="#total1"
+                                    data-price="#price1"
+                                    value="{{ update_products.quantity }}"
+                                    required
+                            />
+                        </div>
+                        <div class="group-form">
+                            <label for="total">المجموع</label>
+                            <input id="total1" type="number" name="total" value="{{ update_products.total }}" disabled/>
+                        </div>
                     </div>
-
                     <div class="group-form">
-                        <label for="price">سعر البيع</label>
-                        <input id="price1" type="number" name="price" value="{{ price.price_of_sale }} required"/>
+                        <label for="final-total">المجموع النهائي</label>
+                        <input id="final-total" type="number" value="{{ update_products.f_total }}" name="final-total"
+                               disabled/>
                     </div>
                     <div class="group-form">
-                        <label for="quantity">الكمية</label>
-                        <input
-                                id="quantity"
-                                type="number"
-                                name="quantity"
-                                data-total="#total1"
-                                data-price="#price1"
-                                required
-                        />
+                        <label for="notes">الملاحظات</label>
+                        <input id="notes" type="text" name="notes" value="{{ update_products.notes }}"/>
+                    </div>
+                    <button>تحديث</button>
+                {% else %}
+                    <div class="sales">
+                        <div class="group-form">
+                            <label for="category">المنتج</label>
+                            <select id="products" name="products" required>
+                                <option value="default" selected disabled>
+                                    -- اختر منتج --
+                                </option>
+                                {% for product in product_name %}
+                                    <option value="{{ product.price_of_sale }}">{{ product }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="group-form">
+                            <label for="price">سعر البيع</label>
+                            <input id="price1" type="number" name="price" value="{{ update_products }}" required/>
+                        </div>
+                        <div class="group-form">
+                            <label for="quantity">الكمية</label>
+                            <input
+                                    id="quantity"
+                                    type="number"
+                                    name="quantity"
+                                    data-total="#total1"
+                                    data-price="#price1"
+                                    value="{{ s.quantity }}"
+                                    required
+                            />
+                        </div>
+                        <div class="group-form">
+                            <label for="total">المجموع</label>
+                            <input id="total1" type="number" name="total" value="{{ update_products.total }}" disabled/>
+                        </div>
+
+                        <a class="add-sales">اضافة</a>
+                    </div>
+                    <div id="demo"></div>
+                    <div class="group-form">
+                        <label for="final-total">المجموع النهائي</label>
+                        <input id="final-total" type="number" name="final-total" disabled/>
                     </div>
                     <div class="group-form">
-                        <label for="total">المجموع</label>
-                        <input id="total1" type="number" name="total"/>
+                        <label for="notes">الملاحظات</label>
+                        <input id="notes" type="text" name="notes" value="{{ update_products.notes }}"/>
                     </div>
+                    <button>اضافة</button>
+                {% endif %}
 
-                    <a class="add-sales">اضافة</a>
-                </div>
-
-                <div id="demo"></div>
-
-                <div class="group-form">
-                    <label for="final-total">المجموع النهائي</label>
-                    <input id="final-total" type="number" name="final-total"/>
-                </div>
-                <div class="group-form">
-                    <label for="notes">الملاحظات</label>
-                    <input id="notes" type="text" name="notes"/>
-                </div>
-                <button>اضافة</button>
             </form>
         </section>
     {% else %}
@@ -78,10 +125,50 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="{% static "js/dark-mode-forms.js" %}"></script>
     <script src="{% static "js/moment.min.js" %}"></script>
+    <script>
+        {% if update_products %}
+            document.getElementById("date").value = "{{ update_products.date_of_purchase|date:'Y-m-d' }}T{{ update_products.date_of_purchase|time:'H:i' }}"
 
+        {% else %}
+
+            document.getElementById("date").value = moment().format().slice(0, 16)
+        {% endif %}
+    </script>
     <script>
         let add = document.querySelector(".add-sales");
         num = 1;
+        {% if not update_products %}
+            document.getElementsByName("price").forEach(e => {
+                if (e.value) {
+
+                    document.querySelector(".add-sales").style.pointerEvents = "all"
+
+                } else {
+                    document.querySelector(".add-sales").style.pointerEvents = "none"
+                }
+            })
+        {% endif %}
+
+
+
+        document.querySelectorAll("select").forEach(e => {
+            e.onchange = function (e) {
+                document.getElementById("price" + num).value = e.target.value
+                {% if not update_products %}
+
+                    document.getElementsByName("price").forEach(e => {
+                        if (e.value) {
+                            document.querySelector(".add-sales").style.pointerEvents = "all"
+
+                        } else {
+
+                            document.querySelector(".add-sales").style.pointerEvents = "none"
+
+                        }
+                    })
+                {% endif %}
+            }
+        })
 
         function addsale() {
             num++;
@@ -123,13 +210,10 @@
             </div>`
             document.getElementById("demo").insertAdjacentHTML("beforeend", newSales)
 
-            console.log(document.getElementById("price" + num))
             if (document.getElementById("price" + num).value === " ") {
-                console.log("dd")
                 document.querySelector(".add-sales").style.pointerEvents = "all"
 
             } else {
-                console.log("ff")
 
                 document.querySelector(".add-sales").style.pointerEvents = "none"
 
@@ -174,66 +258,42 @@
                     total.value = price.value * q.value;
                     let listTotal = document.getElementsByName("total");
                     window.list = [];
-
-                    console.log(window.list)
                     listTotal.forEach((ele) => {
                         list.push(ele.value);
                         ftotal.value = d3.sum(list);
                     });
 
                 };
-                if (document.getElementById("demo").children.length != 0) {
+                if (document.getElementById("demo").children.length !== 0) {
                     document.querySelectorAll(".remove-items").forEach((e) => {
-                        e.onclick = function () {
-                            if (ftotal.value) {
-                                let l = window.list
-                                delete l[l.indexOf(e.parentElement.children[3].children[1].value)]
-                                ftotal.value = d3.sum(l);
-                                e.parentElement.remove()
+                            e.onclick = function () {
+                                {#document.getElementsByName("price").forEach(e => {#}
+                                {#    if (e.value) {#}
+                                {#        console.log(e)#}
+                                {#        document.querySelector(".add-sales").style.pointerEvents = "all"#}
+                                {##}
+                                {#    }#}
+                                {##}
+                                if (ftotal.value) {
+                                    let l = window.list
+                                    delete l[l.indexOf(e.parentElement.children[3].children[1].value)]
+                                    ftotal.value = d3.sum(l);
+                                    e.parentElement.remove()
 
-                            }
-                            if (l.length === 1) {
-                                document.getElementById("final-total").value
-                                    = document.getElementById("total1").value
-                            }
-                        };
-                    });
+                                }
+
+
+                            };
+                        }
+                    );
                 }
 
             });
+            {#localStorage.setItem("demo", document.getElementById("demo").innerHTML);#}
+
 
         }
 
-        document.getElementsByName("price").forEach(e => {
-
-            if (e.value) {
-                document.querySelector(".add-sales").style.pointerEvents = "all"
-
-            } else {
-                console.log(e)
-
-                document.querySelector(".add-sales").style.pointerEvents = "none"
-
-            }
-        })
-
-        document.querySelectorAll("select").forEach(e => {
-            e.onchange = function (e) {
-                document.getElementById("price" + num).value = e.target.value
-                document.getElementsByName("price").forEach(e => {
-
-                    if (e.value) {
-                        document.querySelector(".add-sales").style.pointerEvents = "all"
-
-                    } else {
-                        console.log(e)
-
-                        document.querySelector(".add-sales").style.pointerEvents = "none"
-
-                    }
-                })
-            }
-        })
         let quantity = document.querySelectorAll("#quantity"),
             ftotal = document.getElementById("final-total");
         quantity.forEach((q) => {
@@ -242,20 +302,18 @@
                 let price = document.querySelector(q.dataset.price);
                 total.value = price.value * q.value;
                 let listTotal = document.getElementsByName("total");
-                console.log(listTotal)
                 window.list = [];
-                console.log(window.list)
                 listTotal.forEach((ele) => {
                     list.push(ele.value);
                     ftotal.value = d3.sum(list);
-                    console.log("total " + d3.sum(list));
-                    // Math.sum;
                 });
 
             };
         });
-        add.addEventListener("click", addsale);
-        document.getElementById("date").value = moment().format().slice(0, 16)
+        {% if not update_products %}
+
+            add.addEventListener("click", addsale);
+        {% endif %}
 
     </script>
 {% endblock %}

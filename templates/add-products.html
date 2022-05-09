@@ -15,12 +15,13 @@
                                 id="image"
                                 type="file"
                                 name="image"
-                                value="{{ update_products.image }}"
+                                value=""
+                                required
                         />
                     </div>
                     <div class="group-form">
                         <label for="name">إسم المنتج</label>
-                        <input id="name" type="text" name="name" value="{{ update_products.name }}"/>
+                        <input id="name" type="text" name="name" value="{{ update_products.name }}" required/>
                     </div>
 
                     <div class="group-form">
@@ -31,6 +32,7 @@
                                 name="purchasingPrice"
                                 min="1"
                                 value="{{ update_products.price_of_buy }}"
+                                required
                         />
                     </div>
                     <div class="group-form">
@@ -41,16 +43,18 @@
                                 name="sellingPrice"
                                 min="1"
                                 value="{{ update_products.price_of_sale }}"
+                                required
                         />
                     </div>
                     <div class="group-form">
                         <label for="inStock">عدد المنتجات في المخزن</label>
-                        <input id="inStock" type="number" name="inStock" min="1" value=""/>
+                        <input id="inStock" type="number" name="inStock" min="1" value="{{ update_products.available }}" required/>
                     </div>
                     <div class="group-form">
                         <label for="date">التاريخ</label>
                         <input lang="en" id="date" type="datetime-local" name="date"
-                               value=""/>
+                               value=""
+                               required/>
 
                     </div>
                     <button>اضافة</button>
@@ -66,11 +70,12 @@
                                 type="file"
                                 name="image"
                                 value="اضف صورة"
+                                required
                         />
                     </div>
                     <div class="group-form">
                         <label for="name">إسم المنتج</label>
-                        <input id="name" type="text" name="name"/>
+                        <input id="name" type="text" name="name" required/>
                     </div>
 
                     <div class="group-form">
@@ -80,6 +85,7 @@
                                 type="number"
                                 name="purchasingPrice"
                                 min="1"
+                                required
                         />
                     </div>
                     <div class="group-form">
@@ -89,16 +95,19 @@
                                 type="number"
                                 name="sellingPrice"
                                 min="1"
+                                required
                         />
                     </div>
                     <div class="group-form">
                         <label for="inStock">عدد المنتجات في المخزن</label>
-                        <input id="inStock" type="number" name="inStock" min="1"/>
+                        <input id="inStock" type="number" name="inStock" min="1" required/>
                     </div>
                     <div class="group-form">
                         <label for="date">التاريخ</label>
                         <input lang="en" id="date" type="datetime-local" name="date"
-                               value=""/>
+                               value=""
+                               required
+                        />
                     </div>
                     <button>اضافة</button>
                 </form>

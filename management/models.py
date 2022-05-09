@@ -27,7 +27,11 @@ class Product(models.Model):
 class Sale(models.Model):
     name = models.CharField(null=True, max_length=50)
     date_of_purchase = models.DateTimeField(null=True, default=datetime.now())
+    product = models.CharField(null=True, max_length=50)
+    price_of_selling = models.FloatField(null=True)
+    quantity = models.IntegerField(null=True)
     total = models.FloatField(null=True)
+    f_total = models.FloatField(null=True)
     notes = models.TextField(null=True)
 
     def __str__(self):

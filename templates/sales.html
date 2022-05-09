@@ -35,8 +35,8 @@
                         <td>{{ search.total }}</td>
                         <td>{{ search.notes }}</td>
                         <td class="status">
-                            <a href="">تعديل</a>
-                            <a href="">مسح</a>
+                            <a href="{% url "update_sales" sales_id=search.id %}">تعديل</a>
+                            <a href="{% url "delete_sales" sales_id=search.id %}">مسح</a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -49,8 +49,8 @@
                         <td>admin</td>
                         <td>1/1/2022</td>
                         <td class="status">
-                            <a href="">تعديل</a>
-                            <a href="">مسح</a>
+                            <a href="{% url "update_sales" sales_id=sale.id %}">تعديل</a>
+                            <a href="{% url "delete_sales" sales_id=sale.id %}">مسح</a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -82,10 +82,10 @@
                         <div class="item">{{ search.total }}</div>
                         <div class="item">الملاحظات</div>
                         <div class="item">{{ search.notes }}</div>
-                        {#                        <div class="item status">#}
-                        {#                            <a href="{% url "update_products" products_id=product.id %}">تعديل</a>#}
-                        {#                            <a href="{% url "update_products" products_id=product.id %}">مسح</a>#}
-                        {#                        </div>#}
+                        <div class="item status">
+                            <a href="{% url "update_sales" sales_id=search.id %}">تعديل</a>
+                            <a href="{% url "delete_sales" sales_id=search.id %}">مسح</a>
+                        </div>
                     </div>
                 {% endfor %}
             {% else %}
@@ -101,10 +101,10 @@
                         <div class="item">{{ search.total }}</div>
                         <div class="item">الملاحظات</div>
                         <div class="item">{{ search.notes }}</div>
-                        {#                        <div class="item status">#}
-                        {#                            <a href="{% url "update_products" products_id=product.id %}">تعديل</a>#}
-                        {#                            <a href="{% url "update_products" products_id=product.id %}">مسح</a>#}
-                        {#                        </div>#}
+                        <div class="item status">
+                            <a href="{% url "update_sales" sales_id=sale.id %}">تعديل</a>
+                            <a href="{% url "delete_sales" sales_id=sale.id %}">مسح</a>
+                        </div>
                     </div>
                 {% endfor %}
             {% endif %}
