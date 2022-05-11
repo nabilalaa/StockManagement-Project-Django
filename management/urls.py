@@ -23,5 +23,6 @@ urlpatterns = [
     path("add-sales", add_sales, name="add-sales"),
     path("update/<int:sales_id>", update_sales, name="update_sales"),
     path("delete/<int:sales_id>", delete_sales, name="delete_sales"),
+    path("report-sales", report_sales, name="report_sales"),
 
 ]
