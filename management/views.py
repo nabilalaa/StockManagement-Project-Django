@@ -1,12 +1,25 @@
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
 from .models import *
 from datetime import datetime
 
 
 def index(request):
-    return render(request, "index.html")
+    context = {
+        "products": Product.objects.count(),
+        "categories": Category.objects.count(),
+        "sales": Sale.objects.count(),
+        "m1": Sale.objects.filter(date_of_purchase__month="1").count(),
+        "m2": Sale.objects.filter(date_of_purchase__month="2").count(),
+        "m3": Sale.objects.filter(date_of_purchase__month="3").count(),
+        "m4": Sale.objects.filter(date_of_purchase__month="4").count(),
+        "m5": Sale.objects.filter(date_of_purchase__month="5").count(),
+        "m6": Sale.objects.filter(date_of_purchase__month="6").count(),
+
+    }
+    return render(request, "index.html", context)
 
 
 # start category
@@ -152,7 +165,7 @@ def products(request):
 
 
 def add_products(request):
-    image = request.POST.get("image")
+    image = request.FILES.get("image")
     name = request.POST.get("name")
     inStock = request.POST.get("inStock")
     purchasingPrice = request.POST.get("purchasingPrice")
@@ -160,6 +173,9 @@ def add_products(request):
     date = request.POST.get("date")
 
     if request.method == "POST":
+        print(request.POST)
+        print(request.FILES.get("image"))
+
         Product.objects.create(
             image=image,
             name=name,
@@ -171,23 +187,23 @@ def add_products(request):
         )
         return redirect("products")
     context = {
-        "datetime": datetime.now()
+        "datetime": datetime.now(),
     }
     return render(request, "add-products.html", context)
 
 
 def update_products(request, products_id):
-    image = request.POST.get("image")
+    image = request.FILES.get("image")
     name = request.POST.get("name")
-
     price_of_buy = request.POST.get("purchasingPrice")
     price_of_sale = request.POST.get("sellingPrice")
     available = request.POST.get("inStock")
-
     date = request.POST.get("date")
     if request.method == "POST":
+        product = get_object_or_404(Product, id=products_id)
+        product.image = image
+        product.save()
         Product.objects.filter(id=products_id).update(
-            image=image,
             name=name,
             available=available,
             price_of_buy=price_of_buy,
@@ -232,9 +248,6 @@ def add_sales(request):
     notes = request.POST.get("notes")
     if request.method == "POST":
         l_text = product.split(",")
-        # for w in list(product):
-        #     print(w)
-
         for pro, q, p, t in zip(l_text, quantity, price, total):
             Sale.objects.create(
                 name=name,
@@ -299,3 +312,20 @@ def report_sales(request):
 
     }
     return render(request, "report-sales.html", context)
+
+
+def log_in(request):
+    username = request.POST.get("name")
+    password = request.POST.get("password")
+    if request.method == "POST":
+        if authenticate(request, username=username, password=password):
+            login(request, authenticate(request, username=username, password=password))
+            return redirect("home")
+        else:
+            messages.error(request,"اسم المستخدم او كلمة المرور غير صحيحة")
+    return render(request, "login.html")
+
+
+def log_out(request):
+    logout(request)
+    return redirect("login")

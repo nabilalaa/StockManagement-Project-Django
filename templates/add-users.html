@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+{% block title %}
+    Add Users
+{% endblock %}
 {% load static %}
 {% block content %}
     <!-- start add users -->
@@ -69,7 +72,7 @@
         </section>
     {% else %}
         <section class="forms">
-            <h3>هذد الصفحة متاحة للأدمن فقط <a style="color: #4bb543" href="">قم بالتسجيل كأدمن </a></h3>
+            <h3>هذد الصفحة متاحة للأدمن فقط <a style="color: #4bb543" href="{% url "login" %}">قم بالتسجيل كأدمن </a></h3>
         </section>
     {% endif %}
 {% endblock %}

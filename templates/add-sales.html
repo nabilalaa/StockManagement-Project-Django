@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+{% block title %}
+    Add Sales
+{% endblock %}
 {% load static %}
 {% block content %}
     <!-- start add sales -->
@@ -77,7 +80,6 @@
                                     -- اختر منتج --
                                 </option>
                                 {% for product in product_name %}
-
                                     <option value="{{ product.price_of_sale }}">{{ product.name }}</option>
                                 {% endfor %}
                             </select>
@@ -124,7 +126,7 @@
         </section>
     {% else %}
         <section class="forms">
-            <h3>هذد الصفحة متاحة للأدمن فقط <a style="color: #4bb543" href="">قم بالتسجيل كأدمن </a></h3>
+            <h3>هذد الصفحة متاحة للأدمن فقط <a style="color: #4bb543" href="{% url "login" %}">قم بالتسجيل كأدمن </a></h3>
         </section>
     {% endif %}
 {% endblock %}

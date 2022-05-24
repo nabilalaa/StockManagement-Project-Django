@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+{% block title %}
+    Add Products
+{% endblock %}
 {% load static %}
 {% block content %}
     <!-- start add products -->
@@ -6,7 +9,7 @@
         <section class="forms">
             <h3>اضافة منتجات</h3>
             {% if update_products %}
-                <form class="add-items add-products" method="post">
+                <form class="add-items add-products" method="post" enctype='multipart/form-data'>
                     {% csrf_token %}
                     <div class="group-form">
                         <label for="image">اضافة صورة</label>
@@ -15,7 +18,7 @@
                                 id="image"
                                 type="file"
                                 name="image"
-                                value=""
+                                value="{{ update_products.image.url }}"
                                 required
                         />
                     </div>
@@ -48,7 +51,8 @@
                     </div>
                     <div class="group-form">
                         <label for="inStock">عدد المنتجات في المخزن</label>
-                        <input id="inStock" type="number" name="inStock" min="1" value="{{ update_products.available }}" required/>
+                        <input id="inStock" type="number" name="inStock" min="1" value="{{ update_products.available }}"
+                               required/>
                     </div>
                     <div class="group-form">
                         <label for="date">التاريخ</label>
@@ -60,7 +64,7 @@
                     <button>اضافة</button>
                 </form>
             {% else %}
-                <form class="add-items add-products" method="post">
+                <form class="add-items add-products" method="post" enctype='multipart/form-data'>
                     {% csrf_token %}
                     <div class="group-form">
                         <label for="image">اضافة صورة</label>
@@ -72,6 +76,7 @@
                                 value="اضف صورة"
                                 required
                         />
+
                     </div>
                     <div class="group-form">
                         <label for="name">إسم المنتج</label>
@@ -115,7 +120,7 @@
         </section>
     {% else %}
         <section class="forms">
-            <h3>هذد الصفحة متاحة للأدمن فقط <a style="color: #4bb543" href="">قم بالتسجيل كأدمن </a></h3>
+            <h3>هذد الصفحة متاحة للأدمن فقط <a style="color: #4bb543" href="{% url "login" %}">قم بالتسجيل كأدمن </a></h3>
         </section>
     {% endif %}
 {% endblock %}

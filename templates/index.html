@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
+{% block title %}
+    Home
+{% endblock %}
 {% block content %}
     <!-- start index -->
     <div class="index">
@@ -69,7 +72,7 @@
             datasets: [
                 {
                     label: "My First Dataset",
-                    data: [65, 59, 80, 81, 56, 55, 40],
+                    data: [{{ m1 }}, {{ m2 }}, {{ m3 }}, {{ m4 }}, {{ m5 }}, {{ m6 }}],
                     fill: true,
                     borderColor: "rgb(45, 192, 192)",
 
@@ -81,7 +84,7 @@
         const dataDoughnut = {
             datasets: [
                 {
-                    data: [30, 50, 100],
+                    data: [{{sales}}, {{categories}}, {{products}}],
                     backgroundColor: [
                         "rgb(255, 99, 132)",
                         "rgb(54, 162, 235)",
