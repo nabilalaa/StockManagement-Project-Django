@@ -240,22 +240,29 @@ def sales(request):
 def add_sales(request):
     name = request.POST.get("name")
     date = request.POST.get("date")
-    product = request.POST.get("text")
+    product = request.POST.getlist("products")
     quantity = request.POST.getlist("quantity")
     price = request.POST.getlist("price")
     total = request.POST.getlist("total")
     f_total = request.POST.get("final-total")
     notes = request.POST.get("notes")
+<<<<<<< HEAD
     if request.method == "POST":
         l_text = product.split(",")
         for pro, q, p, t in zip(l_text, quantity, price, total):
+=======
+
+    if request.method == "POST":
+        for product, quantity, price, total in zip(product, quantity,
+                                                   price, total):
+>>>>>>> parent of e5c7359 (‏‏Stock management)
             Sale.objects.create(
                 name=name,
                 date_of_purchase=date,
-                product=pro,
-                price_of_selling=p,
-                quantity=q,
-                total=t,
+                product=product,
+                price_of_selling=price,
+                quantity=quantity,
+                total=total,
                 f_total=f_total,
                 notes=notes
 
@@ -270,10 +277,9 @@ def add_sales(request):
 
 
 def update_sales(request, sales_id):
-    print(request.POST)
     name = request.POST.get("name")
     date = request.POST.get("date")
-    product = request.POST.get("text")
+    product = request.POST.get("products")
     quantity = request.POST.get("quantity")
     price = request.POST.get("price")
     total = request.POST.get("total")
@@ -296,7 +302,6 @@ def update_sales(request, sales_id):
     context = {
         "update_products": Sale.objects.get(id=sales_id),
         "product_name": Product.objects.all(),
-        "pro_name": Product.objects.exclude(name=Sale.objects.get(id=sales_id).product)
 
     }
     return render(request, "add-sales.html", context)
@@ -305,6 +310,7 @@ def update_sales(request, sales_id):
 def delete_sales(request, sales_id):
     Sale.objects.filter(id=sales_id).delete()
     return redirect("sales")
+<<<<<<< HEAD
 
 
 def report_sales(request):
@@ -338,3 +344,5 @@ def log_in(request):
 def log_out(request):
     logout(request)
     return redirect("login")
+=======
+>>>>>>> parent of e5c7359 (‏‏Stock management)
