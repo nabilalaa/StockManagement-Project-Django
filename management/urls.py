@@ -23,12 +23,9 @@ urlpatterns = [
     path("add-sales", add_sales, name="add-sales"),
     path("update/<int:sales_id>", update_sales, name="update_sales"),
     path("delete/<int:sales_id>", delete_sales, name="delete_sales"),
-<<<<<<< HEAD
     path("report-sales", report_sales, name="report_sales"),
     # login / logout
     path("", log_in, name="login"),
     path("log_out", log_out, name="logout"),
-=======
->>>>>>> parent of e5c7359 (‏‏Stock management)
 
 ]

@@ -8,7 +8,6 @@
     {% if user.is_superuser %}
         <section class="forms">
             <h3>اضافة مبيعات</h3>
-
             <form class="add-items add-products" method="post">
                 {% csrf_token %}
                 <div class="group-form">
@@ -27,11 +26,17 @@
                                 <option value="default" disabled>
                                     -- اختر منتج --
                                 </option>
-                                {% for pro in product_name %}
-                                    <option value="{{ pro.price_of_sale }}" selected>{{ pro.name }}</option>
+
+                                <option selected
+                                        value="{{ update_products.price_of_selling }}">{{ update_products.product }}</option>
+                                {% for pro in pro_name %}
+                                    {% if update_products.product %}
+                                        <option value="{{ pro.price_of_sale }}">{{ pro.name }}</option>
+                                    {% endif %}
                                 {% endfor %}
 
                             </select>
+                            <input type="hidden" name="text" value="{{ update_products.product }}">
                         </div>
 
                         <div class="group-form">
@@ -53,13 +58,12 @@
                         </div>
                         <div class="group-form">
                             <label for="total">المجموع</label>
-                            <input id="total1" type="number" name="total" value="{{ update_products.total }}" disabled/>
+                            <input id="total1" type="number" name="total" value="{{ update_products.total }}"/>
                         </div>
                     </div>
                     <div class="group-form">
                         <label for="final-total">المجموع النهائي</label>
-                        <input id="final-total" type="number" value="{{ update_products.f_total }}" name="final-total"
-                               disabled/>
+                        <input id="final-total" type="number" name="final-total" value="{{ update_products.f_total }}"/>
                     </div>
                     <div class="group-form">
                         <label for="notes">الملاحظات</label>
@@ -71,17 +75,16 @@
                         <div class="group-form">
                             <label for="category">المنتج</label>
                             <select id="products" name="products" required>
+
                                 <option value="default" selected disabled>
                                     -- اختر منتج --
                                 </option>
                                 {% for product in product_name %}
-<<<<<<< HEAD
                                     <option value="{{ product.price_of_sale }}">{{ product.name }}</option>
-=======
-                                    <option value="{{ product.price_of_sale }}">{{ product }}</option>
->>>>>>> parent of e5c7359 (‏‏Stock management)
                                 {% endfor %}
                             </select>
+                            <input type="hidden" name="text">
+
                         </div>
 
                         <div class="group-form">
@@ -102,7 +105,7 @@
                         </div>
                         <div class="group-form">
                             <label for="total">المجموع</label>
-                            <input id="total1" type="number" name="total" value="{{ update_products.total }}" disabled/>
+                            <input id="total1" type="number" name="total" value="{{ update_products.total }}"/>
                         </div>
 
                         <a class="add-sales">اضافة</a>
@@ -110,7 +113,7 @@
                     <div id="demo"></div>
                     <div class="group-form">
                         <label for="final-total">المجموع النهائي</label>
-                        <input id="final-total" type="number" name="final-total" disabled/>
+                        <input id="final-total" type="number" name="final-total"/>
                     </div>
                     <div class="group-form">
                         <label for="notes">الملاحظات</label>
@@ -129,7 +132,7 @@
 {% endblock %}
 
 {% block script %}
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="{% static "js/d3.v7.min.js" %}"></script>
     <script src="{% static "js/dark-mode-forms.js" %}"></script>
     <script src="{% static "js/moment.min.js" %}"></script>
     <script>
@@ -142,6 +145,7 @@
         {% endif %}
     </script>
     <script>
+
         let add = document.querySelector(".add-sales");
         num = 1;
         {% if not update_products %}
@@ -158,8 +162,9 @@
 
 
 
-        document.querySelectorAll("select").forEach(e => {
-            e.onchange = function (e) {
+        document.querySelectorAll("select").forEach(ele => {
+            ele.onchange = function (e) {
+                document.getElementsByName("text")[0].value += ele.options[ele.selectedIndex].text
                 document.getElementById("price" + num).value = e.target.value
                 {% if not update_products %}
 
@@ -176,6 +181,7 @@
                 {% endif %}
             }
         })
+
 
         function addsale() {
             num++;
@@ -226,9 +232,10 @@
 
             }
 
-            document.querySelectorAll("select").forEach(e => {
+            document.querySelectorAll("select").forEach(ele => {
+                ele.onchange = function (e) {
+                    document.getElementsByName("text")[0].value += "," + ele.options[ele.selectedIndex].text
 
-                e.onchange = function (e) {
                     document.getElementById("price" + num).value = e.target.value
                     if (document.getElementById("price" + num).value === " ") {
                         document.querySelector(".add-sales").style.pointerEvents = "none"
@@ -273,32 +280,27 @@
                 };
                 if (document.getElementById("demo").children.length !== 0) {
                     document.querySelectorAll(".remove-items").forEach((e) => {
-                            e.onclick = function () {
-                                {#document.getElementsByName("price").forEach(e => {#}
-                                {#    if (e.value) {#}
-                                {#        console.log(e)#}
-                                {#        document.querySelector(".add-sales").style.pointerEvents = "all"#}
-                                {##}
-                                {#    }#}
-                                {##}
-                                if (ftotal.value) {
-                                    let l = window.list
-                                    delete l[l.indexOf(e.parentElement.children[3].children[1].value)]
-                                    ftotal.value = d3.sum(l);
-                                    e.parentElement.remove()
+                        e.onclick = function () {
+                            console.log(ftotal.value)
+                            if (ftotal.value) {
+                                let l = window.list
+                                delete l[l.indexOf(e.parentElement.children[3].children[1].value)]
+                                ftotal.value = d3.sum(l);
+                                e.parentElement.remove()
+
+                            }
+                            document.getElementsByName("price").forEach(e => {
+                                if (e.value) {
+                                    document.querySelector(".add-sales").style.pointerEvents = "all"
 
                                 }
+                            })
 
-
-                            };
                         }
-                    );
+                    });
                 }
 
             });
-            {#localStorage.setItem("demo", document.getElementById("demo").innerHTML);#}
-
-
         }
 
         let quantity = document.querySelectorAll("#quantity"),
@@ -317,10 +319,12 @@
 
             };
         });
+
         {% if not update_products %}
 
             add.addEventListener("click", addsale);
         {% endif %}
+
 
     </script>
 {% endblock %}
