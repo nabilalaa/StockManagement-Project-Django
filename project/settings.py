@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure--zz4&#&xut7=cp3vm3!a!3*1_ikyyrhdzs5d(erem!p9kidn2u
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["easy-managemant.herokuapp.com", "127.0.0.1"]
 
 # Application definition
 
@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "management",
-    "mathfilters"
+    "mathfilters",
+
 ]
 
 MIDDLEWARE = [
@@ -47,6 +48,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -114,8 +117,9 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    BASE_DIR / "project/static",
 ]
+STATIC_ROOT = BASE_DIR / "static"
 
 MEDIA_URL = '/media/'
 
@@ -125,3 +129,4 @@ MEDIA_ROOT = BASE_DIR / "media"
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"

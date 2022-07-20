@@ -309,6 +309,15 @@ def delete_sales(request, sales_id):
 
 def report_sales(request):
     context = {
+        "products": Product.objects.count(),
+        "categories": Category.objects.count(),
+        "sales": Sale.objects.count(),
+        "m1": Sale.objects.filter(date_of_purchase__month="1").count(),
+        "m2": Sale.objects.filter(date_of_purchase__month="2").count(),
+        "m3": Sale.objects.filter(date_of_purchase__month="3").count(),
+        "m4": Sale.objects.filter(date_of_purchase__month="4").count(),
+        "m5": Sale.objects.filter(date_of_purchase__month="5").count(),
+        "m6": Sale.objects.filter(date_of_purchase__month="6").count(),
 
     }
     return render(request, "report-sales.html", context)
@@ -322,7 +331,7 @@ def log_in(request):
             login(request, authenticate(request, username=username, password=password))
             return redirect("home")
         else:
-            messages.error(request,"اسم المستخدم او كلمة المرور غير صحيحة")
+            messages.error(request, "اسم المستخدم او كلمة المرور غير صحيحة")
     return render(request, "login.html")
 
 
