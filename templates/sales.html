@@ -79,6 +79,8 @@
                         <div class="item">{{ search.total }}</div>
                         <div class="item">الملاحظات</div>
                         <div class="item">{{ search.notes }}</div>
+                        <div class="item">الحالة</div>
+
                         <div class="item status">
                             <a href="{% url "update_sales" sales_id=search.id %}">تعديل</a>
                             <a href="{% url "delete_sales" sales_id=search.id %}">مسح</a>
@@ -98,6 +100,8 @@
                         <div class="item">{{ search.total }}</div>
                         <div class="item">الملاحظات</div>
                         <div class="item">{{ search.notes }}</div>
+                        <div class="item">الحالة</div>
+
                         <div class="item status">
                             <a href="{% url "update_sales" sales_id=sale.id %}">تعديل</a>
                             <a href="{% url "delete_sales" sales_id=sale.id %}">مسح</a>

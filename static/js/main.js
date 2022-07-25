@@ -114,5 +114,5 @@ let sideMenuBtn = document.querySelector(".side-menu-btn");
 let sideMenu = document.querySelector(".side-menu");
 
 sideMenuBtn.onclick = function () {
-	sideMenu.classList.add("show-side");
+	sideMenu.classList.toggle("show-side");
 };
